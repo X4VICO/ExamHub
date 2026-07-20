@@ -1,97 +1,275 @@
-# 🎓 Generador de Exámenes en Python
+# 🎓 ExamHub — Generador de Exámenes
 
-> Un simulador interactivo por consola para practicar antes de los exámenes parciales y finales. 
+Un hub web (+ runner de terminal) para practicar con preguntas tipo test y de
+redacción, organizado por asignatura y tema. Pensado para ir creciendo curso
+a curso: cada apunte nuevo es un archivo JSON dentro de `/data`, y aparece
+solo en la web sin tocar código.
 
-Este proyecto es un entorno de autoevaluación dinámico escrito en Python. El programa actúa como un "Runner" que busca, valida y carga automáticamente archivos de preguntas (bancos de test y redacción) para generar simulacros de examen a medida.
+**Web:** funciona en el ordenador y en el móvil (es una página responsive
+normal, sin instalación). **Terminal:** el `examen.py` original se mantiene,
+ahora leyendo la misma fuente de datos que la web.
 
----
-
-## 🚀 Características Principales
-
-*   **Carga Dinámica de Temas:** El programa lee automáticamente cualquier archivo `.py` válido que se encuentre dentro de la carpeta `temas/`.
-*   **Generación de Exámenes a Medida:** Permite al usuario seleccionar qué temas quiere repasar y cuántas preguntas de cada tipo desea afrontar.
-*   **Tipos de Preguntas Soportadas:**
-    *   **Tipo Test:** Opciones mezcladas aleatoriamente (A, B, C, D) con validación automática y feedback en tiempo real.
-    *   **Redacción (Desarrollo):** Permite respuestas multilínea por consola y genera un bloque de texto estructurado para su posterior corrección manual.
-*   **Cálculo de Notas:** Genera una nota parcial instantánea basada en el test y prepara la estructura para sumar la nota de las preguntas de redacción.
-*   **Interfaz CLI Amigable:** Uso de colores ANSI para una lectura cómoda, menús interactivos y envoltura de texto (*text wrapping*) para evitar líneas infinitas.
+> Demo local rápida: abre `index.html` con un servidor local (ver más abajo
+> por qué no vale hacer doble clic) o publícalo con GitHub Pages.
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Estructura del proyecto
 
-El flujo de trabajo está diseñado para mantener un repositorio ordenado de todas las asignaturas:
-
-```text
+```
 📦 Generador-de-examenes
- ┣ 📜 examen.py        # Script principal que ejecuta el simulacro
- ┣ 📜 README.md        # Documentación del proyecto
- ┣ 📂 biblioteca       # Almacén de TODOS los archivos de preguntas creados
- ┗ 📂 temas            # Carpeta activa: el script SOLO lee los archivos aquí
+ ┣ 📜 index.html              # Hub: elige asignaturas/temas y configura la sesión
+ ┣ 📜 quiz.html                # Motor de examen (test + redacción)
+ ┣ 📜 examen.py                # Runner de terminal (misma fuente de datos que la web)
+ ┣ 📂 assets/
+ ┃  ┣ 📂 css/style.css         # Sistema de diseño compartido
+ ┃  ┗ 📂 js/
+ ┃     ┣ hub.js                # Lógica del catálogo/selector
+ ┃     ┣ quiz-engine.js        # Lógica de la sesión de examen
+ ┃     ┗ storage.js            # Estadísticas en localStorage (aciertos/fallos)
+ ┣ 📂 data/                    # 🟢 TODO el banco de preguntas vive aquí
+ ┃  ┣ manifest.json            # Índice autogenerado — NO editar a mano
+ ┃  ┣ 📂 <asignatura-slug>/
+ ┃  ┃  ┗ <tema>.json           # Un archivo = un tema
+ ┃  ┗ ...
+ ┣ 📂 scripts/
+ ┃  ┣ build_manifest.py        # Escanea data/ y regenera manifest.json
+ ┃  ┗ convert_legacy_py.py     # Migra temas .py antiguos (TEMA/TEST/REDACCION) a JSON
+ ┗ 📂 .github/workflows/
+    ┗ build-manifest.yml       # Regenera el manifest solo al hacer push
 ```
 
-**💡 ¿Cómo funciona el sistema de carpetas?**
-Para evitar que el programa cargue todas las asignaturas a la vez, guarda todos tus archivos de preguntas en la carpeta `biblioteca`. Cuando vayas a estudiar, simplemente **copia o mueve** los archivos específicos que quieras repasar (ej: `redes3_tema1.py` o `controlacces_m1.py`) a la carpeta `temas`.
+**Una única fuente de datos.** Tanto la web como `examen.py` leen los mismos
+JSON de `/data`. Ya no hay que mantener `temas/` y `biblioteca/` en paralelo:
+esas carpetas quedan obsoletas (puedes borrarlas después de migrar, ver más
+abajo) porque su contenido ya está convertido en `/data`.
 
 ---
 
-## 🛠️ Instalación y Uso
+## 🚀 Cómo añadir un tema nuevo (lo del día a día)
 
-1. **Clona el repositorio** en tu máquina local:
-   ```bash
-   git clone https://github.com/X4VICO/Generador-de-examenes.git
-   cd Generador-de-examenes
-   ```
+1. Crea `data/<tu-asignatura>/<tema>.json` con este esquema:
 
-2. **Prepara tu examen:**
-   Mueve los archivos de los módulos que quieras repasar desde la carpeta `biblioteca/` hacia la carpeta `temas/`.
+    ```json
+    {
+      "asignatura": "Redes III",
+      "asignatura_slug": "redes-iii",
+      "tema": "Routing",
+      "tema_id": "redes3_tema4",
+      "orden": 4,
+      "test": [
+        {
+          "enunciado": "¿Cuál es la máscara por defecto de una red clase C?",
+          "opciones": [
+            {"texto": "255.0.0.0", "correcta": false},
+            {"texto": "255.255.0.0", "correcta": false},
+            {"texto": "255.255.255.0", "correcta": true}
+          ],
+          "explicacion": "Opcional — se muestra en modo práctica al corregir."
+        }
+      ],
+      "redaccion": [
+        {"titulo": "OSPF vs RIP", "enunciado": "Compara ambos protocolos...", "puntos": 15}
+      ]
+    }
+    ```
 
-3. **Ejecuta el simulador:**
-   No requiere dependencias externas, utiliza únicamente la biblioteca estándar de Python (requiere Python 3.x).
-   ```bash
-   python examen.py
-   ```
-   *(Sigue las instrucciones en pantalla para elegir los temas y el número de preguntas).*
+    - `asignatura_slug` agrupa temas de la misma asignatura — usa el mismo
+      slug en todos los temas de esa asignatura (minúsculas, sin espacios ni
+      tildes, guiones en vez de espacios).
+    - `opciones`: cualquier número de opciones; puede haber **más de una
+      correcta** (la web lo detecta sola y pide "elige N opciones"; el
+      runner de terminal, en cambio, solo sabe con una correcta y esas
+      preguntas las salta avisando por consola).
+    - `redaccion` es opcional — pon `[]` si el tema no tiene preguntas de
+      desarrollo.
+    - `explicacion` es opcional.
+
+2. Regenera el catálogo:
+
+    ```bash
+    python3 scripts/build_manifest.py
+    ```
+
+    (valida el JSON y te avisa si falta alguna clave o si una pregunta no
+    tiene ninguna opción correcta marcada)
+
+3. `git add`, `commit`, `push`. Listo — aparece solo en la web.
+
+    Si tienes activado el workflow de GitHub Actions incluido
+    (`.github/workflows/build-manifest.yml`), ni siquiera necesitas el paso
+    2: el manifest se regenera solo al hacer push. El script local sigue
+    siendo útil para comprobar en tu máquina que el JSON está bien antes de
+    subirlo.
+
+### Preguntas de "emparejar" (opcional, avanzado)
+
+Si una pregunta es de "empareja estos conceptos" y la representas con una
+tabla o con una imagen de la respuesta, puedes usar:
+
+```json
+{ "enunciado": "...", "tipo": "matching_table", "opciones": [],
+  "tabla": [["Concepto A", "Definición A"], ["Concepto B", "Definición B"]] }
+```
+```json
+{ "enunciado": "...", "tipo": "matching_image", "opciones": [],
+  "imagenes": ["https://.../pregunta.jpg", "https://.../respuesta.jpg"] }
+```
+La web muestra un botón "Mostrar respuesta". El runner de terminal las
+salta (no tiene forma razonable de mostrarlas en texto plano).
+
+### Migrar un tema antiguo (.py con TEMA/TEST/REDACCION)
+
+```bash
+python3 scripts/convert_legacy_py.py temas/tu_archivo.py
+python3 scripts/build_manifest.py
+```
 
 ---
 
-## 📝 Cómo añadir nuevas preguntas
+## 🌐 Publicar con GitHub Pages
 
-Para añadir una nueva asignatura o módulo, crea un archivo `.py` (por ejemplo: `asignatura_modulo.py`) y asegúrate de definir en él las siguientes tres variables obligatorias: `TEMA`, `TEST` y `REDACCION`.
+1. En el repo: **Settings → Pages → Source: Deploy from a branch → main → / (root)**.
+2. Espera un minuto y tu web estará en `https://<usuario>.github.io/<repo>/`.
+3. No necesitas build ni backend — es HTML/CSS/JS puro sirviendo JSON estático.
 
-Aquí tienes la plantilla base:
+### Probarlo en local antes de publicar
 
-```python
-# Variables obligatorias para que el runner detecte el archivo
+Abrir `index.html` con doble clic **no funciona** (los navegadores bloquean
+`fetch()` sobre `file://`). Levanta un servidor local en la carpeta del
+proyecto:
 
-TEMA = {
-    "id": 1,                     # Número identificador único para ordenar
-    "nombre": "Nombre del Tema", # Nombre que aparecerá en el menú
-    "asignatura": "Asignatura",  # Agrupación 
-}
-
-TEST = [
-    {
-        "enunciado": "Texto de la pregunta de opción múltiple",
-        "opciones": [
-            ("Opción A incorrecta", False),
-            ("Opción B correcta", True),   # Solo UNA opción debe ser True
-            ("Opción C incorrecta", False),
-            ("Opción D incorrecta", False),
-        ]
-    },
-    # Añadir más diccionarios para más preguntas...
-]
-
-REDACCION = [
-    {
-        "titulo": "Título corto de la pregunta",
-        "enunciado": "Enunciado completo explicando qué debe desarrollar el alumno.",
-        "puntos": 15, # Puntuación máxima de esta pregunta
-    },
-    # Añadir más diccionarios para más preguntas...
-]
+```bash
+python3 -m http.server 8000
+# abre http://localhost:8000
 ```
 
-**Notas importantes sobre el formato:**
-* El runner validará automáticamente al arrancar que cada pregunta de tipo test tenga **exactamente una respuesta correcta** (`True`). Si hay errores, te lo notificará en la consola y omitirá ese archivo para evitar fallos durante el examen.
+---
+
+## 📱 Uso en el móvil
+
+Es una web responsive normal: ábrela con el navegador del móvil desde la
+URL de GitHub Pages. En iOS/Android puedes "Añadir a pantalla de inicio"
+desde el menú del navegador para que se abra como una app.
+
+---
+
+## 💾 Progreso y estadísticas
+
+Cada pregunta de test que respondes se guarda en el `localStorage` del
+navegador (aciertos/fallos, por pregunta). Con eso:
+
+- El catálogo te muestra qué temas tienes más falladas.
+- El botón **"Solo falladas anteriormente"** te arma una sesión solo con lo
+  que fallaste la última vez.
+- Es local al navegador — si cambias de dispositivo o borras datos del
+  navegador, se pierde. No hay servidor ni cuentas de usuario.
+
+Las preguntas de redacción no se corrigen solas: al terminar la sesión se
+genera un bloque de texto descargable con todas tus respuestas (igual que
+hacía `examen.py` en terminal) para pegarlo donde lo vayas a corregir.
+
+---
+
+## 🔒 Proteger una asignatura con contraseña (cifrado real)
+
+Puedes cifrar el contenido de cualquier asignatura para que nadie pueda leer
+las preguntas sin contraseña — ni viendo el código, ni bajando el JSON a
+mano. Se cifra con **AES-256-GCM**, con la clave derivada de tu contraseña
+mediante PBKDF2 (250 000 iteraciones). El descifrado ocurre en el propio
+navegador de quien la usa, con la API nativa `crypto.subtle` — la
+contraseña nunca sale del navegador ni se guarda en ningún sitio.
+
+Necesitas la librería `cryptography` solo para estos dos scripts (el resto
+del proyecto no tiene dependencias fuera de la librería estándar):
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python3 scripts/encrypt_subject.py data/cyberops-associate
+# te pide la contraseña (oculta, dos veces para confirmar)
+python3 scripts/build_manifest.py
+git add . && git commit -m "cifrar CyberOps" && git push
+```
+
+En la web, esa asignatura aparece con un candado 🔒. Al intentar hacer una
+sesión con temas de ahí, sale un cuadro pidiendo la contraseña; si es
+correcta, descifra en memoria y sigue como cualquier otra sesión. Si te
+equivocas de contraseña, te avisa y te deja reintentar.
+
+**Cosas a tener en cuenta:**
+- Guarda la contraseña en un gestor de contraseñas — si la pierdes, el
+  contenido cifrado es irrecuperable (no hay puerta trasera).
+- Los metadatos (nombre de asignatura/tema, nº de preguntas) se quedan sin
+  cifrar a propósito, para que el catálogo se pueda seguir mostrando sin
+  contraseña. Solo el enunciado, las opciones y la redacción quedan
+  ilegibles.
+- Para volver a editar las preguntas más adelante, descífralas primero:
+
+    ```bash
+    python3 scripts/decrypt_subject.py data/cyberops-associate
+    # edita los .json en texto plano
+    python3 scripts/encrypt_subject.py data/cyberops-associate   # vuelve a cifrar
+    python3 scripts/build_manifest.py
+    ```
+    No hagas commit de la versión descifrada por accidente — revisa
+    `git diff` antes de subir.
+- El runner de terminal (`examen.py`) **no** sabe pedir contraseña — si
+  cargas una asignatura cifrada, la salta avisando por consola. El cifrado
+  es una funcionalidad solo de la web.
+
+---
+
+## 🖥️ Runner de terminal (`examen.py`)
+
+Se mantiene por si prefieres practicar sin navegador. Lee la misma carpeta
+`/data`, así que cualquier tema que añadas aparece también aquí:
+
+```bash
+python3 examen.py
+```
+
+No tiene dependencias fuera de la biblioteca estándar de Python 3.
+
+---
+
+## 🗂️ Scripts
+
+| Script | Qué hace |
+|---|---|
+| `scripts/build_manifest.py` | Escanea `/data`, valida cada tema y genera `data/manifest.json` |
+| `scripts/convert_legacy_py.py` | Convierte archivos `.py` del formato antiguo (`TEMA`/`TEST`/`REDACCION`) a JSON |
+| `scripts/encrypt_subject.py` | Cifra con contraseña todos los temas de una asignatura (AES-256-GCM) |
+| `scripts/decrypt_subject.py` | Descifra temporalmente una asignatura para poder editar sus preguntas |
+
+---
+
+## 🧩 Esquema completo de un archivo de tema
+
+| Clave | Tipo | Obligatoria | Descripción |
+|---|---|---|---|
+| `asignatura` | string | sí | Nombre visible de la asignatura |
+| `asignatura_slug` | string | sí | Slug estable — igual en todos los temas de esa asignatura |
+| `tema` | string | sí | Nombre del tema, aparece en el selector |
+| `tema_id` | string | sí | Identificador único del tema (usa el nombre del archivo, sin `.json`) |
+| `orden` | number | no | Orden dentro de la asignatura (por defecto 0) |
+| `test` | array | sí (puede ser `[]`) | Preguntas tipo test |
+| `test[].enunciado` | string | sí | Texto de la pregunta |
+| `test[].opciones` | array | sí (o `tipo` de emparejar) | `{texto, correcta}` — 1 o más `correcta: true` |
+| `test[].explicacion` | string | no | Se muestra en modo práctica al corregir |
+| `test[].tipo` | string | no | `matching_table` / `matching_image` para preguntas de emparejar |
+| `test[].tabla` | array | solo si `tipo: matching_table` | Filas `[clave, valor]` |
+| `test[].imagenes` | array | solo si `tipo: matching_image` (o como imagen normal de apoyo) | URLs de imagen |
+| `redaccion` | array | sí (puede ser `[]`) | Preguntas de desarrollo |
+| `redaccion[].titulo` | string | sí | Título corto |
+| `redaccion[].enunciado` | string | sí | Enunciado completo |
+| `redaccion[].puntos` | number | no | Puntuación máxima (por defecto 10) |
+
+---
+
+## Créditos
+
+Basado en el runner de terminal original de este repo, ampliado a web
+manteniendo el mismo formato de datos y añadiendo soporte multi-asignatura.

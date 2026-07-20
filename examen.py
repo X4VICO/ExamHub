@@ -1,49 +1,55 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-examen.py — Runner principal del simulacro de examen
-=====================================================
-Carga automáticamente todos los archivos de temas desde la carpeta /temas.
+examen.py — Runner principal del simulacro de examen (modo terminal)
+======================================================================
+Carga automáticamente todos los temas desde /data/**/*.json — la MISMA
+fuente de datos que usa la web (index.html + quiz.html). No hay que
+mantener dos catálogos de preguntas por separado.
 
 Para añadir un tema nuevo:
-  1. Crea un archivo en temas/  (ej: tema4_routing.py)
-  2. Define en él las variables TEMA, TEST y REDACCION con el formato indicado
-  3. Listo — el runner lo detectará solo en el próximo arranque
+  1. Crea un archivo JSON en data/<asignatura>/<tema>.json (ver README.md
+     para el esquema exacto, o usa scripts/convert_legacy_py.py si vienes
+     de un archivo .py del formato antiguo).
+  2. Ejecuta scripts/build_manifest.py (regenera data/manifest.json, que
+     usa la web — el runner de terminal no lo necesita, pero conviene
+     tenerlo actualizado).
+  3. Listo — tanto examen.py como la web lo detectarán solos.
 
-Formato esperado en cada archivo de tema:
+Esquema de cada archivo de tema (data/<asignatura>/<tema>.json):
 
-    TEMA = {
-        "id":         4,           # número único del tema
-        "nombre":     "Routing",   # nombre que aparece en el menú
-        "asignatura": "Redes III", # agrupación (para futuros filtros)
+    {
+      "asignatura":       "Redes III",
+      "asignatura_slug":  "redes-iii",
+      "tema":             "Routing",
+      "tema_id":           "redes3_tema1",
+      "orden":            4,
+      "test": [
+        {
+          "enunciado": "texto de la pregunta",
+          "opciones": [
+            {"texto": "opción A", "correcta": false},
+            {"texto": "opción B", "correcta": true},
+            {"texto": "opción C", "correcta": false}
+          ],
+          "explicacion": "opcional, se muestra en la web"
+        }
+      ],
+      "redaccion": [
+        {"titulo": "Título corto", "enunciado": "Enunciado completo.", "puntos": 15}
+      ]
     }
 
-    TEST = [
-        {
-            "enunciado": "texto de la pregunta",
-            "opciones": [
-                ("texto opción A", False),
-                ("texto opción B", True),   ← True = correcta (solo una)
-                ("texto opción C", False),
-                ("texto opción D", False),
-            ]
-        },
-        ...
-    ]
-
-    REDACCION = [
-        {
-            "titulo":   "Título corto",
-            "enunciado": "Enunciado completo de la pregunta.",
-            "puntos":   15,
-        },
-        ...
-    ]
+Nota: el runner de terminal solo sabe hacer preguntas de una única
+respuesta correcta (tipo test clásico). Si un archivo trae preguntas de
+varias respuestas correctas o de emparejar (imagen/tabla) — pensadas
+para la web — el runner las salta automáticamente y avisa por consola;
+en la web sí funcionan.
 """
 
 import os
 import sys
-import importlib.util
+import json
 import random
 import textwrap
 from datetime import datetime
@@ -66,56 +72,85 @@ RE = "\033[0m"    # reset
 
 def cargar_temas():
     """
-    Escanea la carpeta temas/ y carga todos los archivos .py
-    que definan las variables TEMA, TEST y REDACCION.
-    Devuelve una lista de dicts ordenada por tema["id"].
+    Escanea la carpeta data/ (recursivamente) y carga todos los .json
+    de tema (ignora manifest.json). Devuelve una lista de dicts con la
+    misma forma que usaba el runner antiguo: {"meta", "test", "redaccion", "archivo"}.
     """
-    carpeta = os.path.join(os.path.dirname(__file__), "temas")
+    carpeta = os.path.join(os.path.dirname(__file__), "data")
     temas_cargados = []
 
-    for archivo in sorted(os.listdir(carpeta)):
-        if not archivo.endswith(".py") or archivo.startswith("_"):
-            continue
+    if not os.path.isdir(carpeta):
+        return temas_cargados
 
-        ruta = os.path.join(carpeta, archivo)
-        spec = importlib.util.spec_from_file_location(archivo[:-3], ruta)
-        modulo = importlib.util.module_from_spec(spec)
+    rutas = []
+    for dirpath, _dirnames, filenames in os.walk(carpeta):
+        for fname in sorted(filenames):
+            if fname.endswith(".json") and fname != "manifest.json":
+                rutas.append(os.path.join(dirpath, fname))
+    rutas.sort()
 
+    for ruta in rutas:
+        archivo = os.path.relpath(ruta, carpeta)
         try:
-            spec.loader.exec_module(modulo)
+            with open(ruta, encoding="utf-8") as f:
+                data = json.load(f)
         except Exception as e:
             print(f"{R}Error cargando {archivo}: {e}{RE}")
             continue
 
-        # Validar que el archivo tiene las variables necesarias
-        if not all(hasattr(modulo, attr) for attr in ("TEMA", "TEST", "REDACCION")):
-            print(f"{AM}Aviso: {archivo} ignorado (faltan TEMA, TEST o REDACCION){RE}")
+        if data.get("encrypted"):
+            print(f"{GR}({archivo}: protegido con contraseña — solo disponible en la web, se salta en terminal){RE}")
             continue
 
-        # Validar que cada pregunta test tiene exactamente 1 correcta
-        errores = _validar_test(modulo.TEST, archivo)
-        if errores:
-            for e in errores:
-                print(f"{R}{e}{RE}")
+        if not all(k in data for k in ("asignatura", "tema", "test", "redaccion")):
+            print(f"{AM}Aviso: {archivo} ignorado (faltan claves obligatorias){RE}")
             continue
+
+        test_utilizable, saltadas = _filtrar_test_cli(data.get("test", []))
+        if saltadas:
+            print(f"{GR}({archivo}: {saltadas} pregunta(s) de tipo web-only omitidas en terminal){RE}")
 
         temas_cargados.append({
-            "meta":      modulo.TEMA,
-            "test":      modulo.TEST,
-            "redaccion": modulo.REDACCION,
-            "archivo":   archivo,
+            "meta": {
+                "id": data.get("orden", 0),
+                "nombre": data.get("tema", archivo),
+                "asignatura": data.get("asignatura", "Sin asignatura"),
+            },
+            "test": test_utilizable,
+            "redaccion": data.get("redaccion", []),
+            "archivo": archivo,
         })
 
-    temas_cargados.sort(key=lambda t: t["meta"].get("id", 0))
+    temas_cargados.sort(key=lambda t: (t["meta"].get("asignatura", ""), t["meta"].get("id", 0)))
+    # reasignar ids únicos consecutivos para el menú (los "orden" pueden repetirse entre asignaturas)
+    for i, t in enumerate(temas_cargados, 1):
+        t["meta"]["id"] = i
     return temas_cargados
 
-def _validar_test(preguntas, archivo):
-    errores = []
-    for i, p in enumerate(preguntas):
-        correctas = sum(1 for _, c in p.get("opciones", []) if c)
-        if correctas != 1:
-            errores.append(f"  [{archivo}] Pregunta {i+1}: tiene {correctas} respuestas correctas (debe ser 1)")
-    return errores
+
+def _filtrar_test_cli(test_items):
+    """
+    El runner de terminal solo sabe hacer preguntas de una única respuesta
+    correcta con letras a/b/c/d. Filtra fuera (con aviso) las preguntas de
+    varias respuestas correctas o de tipo emparejar (pensadas para la web).
+    Devuelve (lista_utilizable, num_saltadas).
+    """
+    utilizable = []
+    saltadas = 0
+    for p in test_items:
+        if p.get("tipo") in ("matching_table", "matching_image"):
+            saltadas += 1
+            continue
+        opciones = p.get("opciones", [])
+        correctas = sum(1 for o in opciones if o.get("correcta"))
+        if correctas != 1 or len(opciones) < 2:
+            saltadas += 1
+            continue
+        utilizable.append({
+            "enunciado": p["enunciado"],
+            "opciones": [(o["texto"], bool(o["correcta"])) for o in opciones],
+        })
+    return utilizable, saltadas
 
 # ─────────────────────────────────────────────
 #  UTILIDADES DE TERMINAL
