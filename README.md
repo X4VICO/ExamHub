@@ -1,26 +1,40 @@
 # 🎓 ExamHub — Generador de Exámenes
 
-Un hub web (+ runner de terminal) para practicar con preguntas tipo test y de
-redacción, organizado por asignatura y tema. Pensado para ir creciendo curso
-a curso: cada apunte nuevo es un archivo JSON dentro de `/data`, y aparece
-solo en la web sin tocar código.
+Un hub web para practicar con preguntas tipo test y de redacción, organizado
+por asignatura y tema. Pensado para ir creciendo curso a curso: cada apunte
+nuevo es un archivo JSON dentro de `/data`, y aparece solo en la web sin
+tocar código.
 
 **Web:** funciona en el ordenador y en el móvil (es una página responsive
-normal, sin instalación). **Terminal:** el `examen.py` original se mantiene,
-ahora leyendo la misma fuente de datos que la web.
+normal, sin instalación, sin backend).
 
 > Demo local rápida: abre `index.html` con un servidor local (ver más abajo
 > por qué no vale hacer doble clic) o publícalo con GitHub Pages.
 
 ---
 
+## 🛠️ Pendientes de pulir (tasklist viva)
+
+Cosas que van saliendo al probar la web y que hay que arreglar. Se añaden
+aquí en cuanto se detectan y se quitan en cuanto quedan arregladas y
+confirmadas — esta sección no es un historial, es solo lo que está abierto
+ahora mismo.
+
+- [ ] Migrar las 58 preguntas `matching_image` a `tabla` (interactivas),
+      empezando por los módulos con menos preguntas: `m01-02` (1) →
+      `m21-23` / `m24-25` / `m26-28` (2 cada uno) → resto en orden ascendente.
+- [ ] Seguir probando el motor de emparejar interactivo (`matching_table`)
+      en distintos temas y dispositivos para detectar más casos raros.
+
+---
+
+
 ## 📁 Estructura del proyecto
 
 ```
-📦 Generador-de-examenes
+📦 ExamHub
  ┣ 📜 index.html              # Hub: elige asignaturas/temas y configura la sesión
  ┣ 📜 quiz.html                # Motor de examen (test + redacción)
- ┣ 📜 examen.py                # Runner de terminal (misma fuente de datos que la web)
  ┣ 📂 assets/
  ┃  ┣ 📂 css/style.css         # Sistema de diseño compartido
  ┃  ┗ 📂 js/
@@ -39,10 +53,8 @@ ahora leyendo la misma fuente de datos que la web.
     ┗ build-manifest.yml       # Regenera el manifest solo al hacer push
 ```
 
-**Una única fuente de datos.** Tanto la web como `examen.py` leen los mismos
-JSON de `/data`. Ya no hay que mantener `temas/` y `biblioteca/` en paralelo:
-esas carpetas quedan obsoletas (puedes borrarlas después de migrar, ver más
-abajo) porque su contenido ya está convertido en `/data`.
+**Una única fuente de datos.** Toda la web lee los JSON de `/data`. Ya no
+existen `temas/` ni `biblioteca/` — su contenido quedó migrado a `/data`.
 
 ---
 
@@ -78,9 +90,7 @@ abajo) porque su contenido ya está convertido en `/data`.
       slug en todos los temas de esa asignatura (minúsculas, sin espacios ni
       tildes, guiones en vez de espacios).
     - `opciones`: cualquier número de opciones; puede haber **más de una
-      correcta** (la web lo detecta sola y pide "elige N opciones"; el
-      runner de terminal, en cambio, solo sabe con una correcta y esas
-      preguntas las salta avisando por consola).
+      correcta** (la web lo detecta sola y pide "elige N opciones").
     - `redaccion` es opcional — pon `[]` si el tema no tiene preguntas de
       desarrollo.
     - `explicacion` es opcional.
@@ -115,8 +125,7 @@ tabla o con una imagen de la respuesta, puedes usar:
 { "enunciado": "...", "tipo": "matching_image", "opciones": [],
   "imagenes": ["https://.../pregunta.jpg", "https://.../respuesta.jpg"] }
 ```
-La web muestra un botón "Mostrar respuesta". El runner de terminal las
-salta (no tiene forma razonable de mostrarlas en texto plano).
+La web muestra un botón "Mostrar respuesta".
 
 ### Migrar un tema antiguo (.py con TEMA/TEST/REDACCION)
 
@@ -166,8 +175,8 @@ navegador (aciertos/fallos, por pregunta). Con eso:
   navegador, se pierde. No hay servidor ni cuentas de usuario.
 
 Las preguntas de redacción no se corrigen solas: al terminar la sesión se
-genera un bloque de texto descargable con todas tus respuestas (igual que
-hacía `examen.py` en terminal) para pegarlo donde lo vayas a corregir.
+genera un bloque de texto descargable con todas tus respuestas para pegarlo
+donde lo vayas a corregir.
 
 ---
 
@@ -216,22 +225,6 @@ equivocas de contraseña, te avisa y te deja reintentar.
     ```
     No hagas commit de la versión descifrada por accidente — revisa
     `git diff` antes de subir.
-- El runner de terminal (`examen.py`) **no** sabe pedir contraseña — si
-  cargas una asignatura cifrada, la salta avisando por consola. El cifrado
-  es una funcionalidad solo de la web.
-
----
-
-## 🖥️ Runner de terminal (`examen.py`)
-
-Se mantiene por si prefieres practicar sin navegador. Lee la misma carpeta
-`/data`, así que cualquier tema que añadas aparece también aquí:
-
-```bash
-python3 examen.py
-```
-
-No tiene dependencias fuera de la biblioteca estándar de Python 3.
 
 ---
 

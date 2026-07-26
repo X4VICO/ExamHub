@@ -30,6 +30,13 @@
     <div class="session-head">
       <div class="ticket-id">TICKET <b id="ticketNum">001</b> / <span id="ticketTotal">000</span></div>
       <div class="head-actions">
+        <button class="icon-btn" id="paletteBtn" title="Ver todas las preguntas">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <button class="icon-btn flags-btn" id="flagsNavBtn" title="Ir a la siguiente marcada" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 3v18M5 4h11l-2.5 3.5L16 11H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="flags-badge" id="flagsBadge">0</span>
+        </button>
         <button class="icon-btn" id="flagBtn" title="Marcar para repasar">
           <svg viewBox="0 0 24 24" fill="none"><path d="M5 3v18M5 4h11l-2.5 3.5L16 11H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -37,6 +44,22 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn">‹ Anterior</button>
+      <button class="nav-btn primary" id="nextBtn">Siguiente ›</button>
+    </div>
+
+    <div class="palette-panel" id="palettePanel" style="display:none;">
+      <div class="palette-legend">
+        <span><i class="lg-dot"></i> Sin responder</span>
+        <span><i class="lg-dot st-skipped"></i> En blanco</span>
+        <span><i class="lg-dot done-correct"></i> Acertada</span>
+        <span><i class="lg-dot done-wrong"></i> Fallada</span>
+        <span><i class="lg-dot flagged"></i> Marcada</span>
+      </div>
+      <div class="palette-grid" id="paletteGrid"></div>
     </div>
 
     <div class="trail" id="trail"></div>
@@ -99,9 +122,16 @@
       <div class="section-label">Redacción</div>
       <div class="redaccion-block">
         <h3>Bloque para corrección manual</h3>
-        <p>Tus respuestas de desarrollo no se corrigen solas — descarga este bloque de texto y pégalo donde vayas a corregirlo (o pásaselo a quien te la corrija).</p>
+        <p>Tus respuestas de desarrollo no se corrigen solas. Tienes dos formas de corregirlas:</p>
+        <ul class="redaccion-help">
+          <li><b>Copiar prompt para IA</b>: copia un prompt listo para pegar en Claude, ChatGPT o similar — incluye instrucciones de corrección, tu respuesta y pide nota + feedback por pregunta.</li>
+          <li><b>Descargar bloque (.txt)</b>: descarga solo tus respuestas en texto plano, para pasárselas a un profesor o corregirlas tú mismo con los apuntes.</li>
+        </ul>
         <div class="redaccion-preview" id="redaccionPreview"></div>
-        <button class="btn-secondary" id="downloadRedBtn">Descargar bloque de corrección (.txt)</button>
+        <div class="redaccion-actions">
+          <button class="btn-primary" id="copyPromptBtn">Copiar prompt para IA</button>
+          <button class="btn-secondary" id="downloadRedBtn">Descargar bloque (.txt)</button>
+        </div>
       </div>
     </div>
 

@@ -196,6 +196,7 @@
       index: 0,
       answers: {},
       flags: {},
+      drafts: {},
       startTime: Date.now(),
       mode: customPools ? "practice" : config.mode,
     };
@@ -213,28 +214,132 @@
     return { kind: "red", q: session.red[session.index - session.test.length] };
   }
 
+  function itemAt(i) {
+    return i < session.test.length ? session.test[i] : session.red[i - session.test.length];
+  }
+
+  /* estado de una pregunta por índice: unanswered | st-skipped | done-correct | done-wrong */
+  function stateClassAt(i) {
+    var q = itemAt(i);
+    var a = session.answers[q.qid];
+    if (!a) return "";
+    if (a.skipped) return "st-skipped";
+    if (i < session.test.length) return a.correct ? "done-correct" : "done-wrong";
+    return "done-correct"; // redacción guardada / matching revelado cuenta como completada
+  }
+
   function buildTrail() {
     var trail = document.getElementById("trail");
     trail.innerHTML = "";
     for (var i = 0; i < session.total; i++) {
-      trail.appendChild(document.createElement("i"));
+      var dot = document.createElement("i");
+      (function (idx) {
+        dot.addEventListener("click", function () { goTo(idx); });
+      })(i);
+      trail.appendChild(dot);
     }
+    buildPalette();
     updateTrail();
   }
+
   function updateTrail() {
     var children = document.getElementById("trail").children;
     for (var i = 0; i < session.total; i++) {
       var el = children[i];
-      el.className = "";
-      var q = i < session.test.length ? session.test[i] : session.red[i - session.test.length];
-      var a = session.answers[q.qid];
+      el.className = stateClassAt(i);
       if (i === session.index) el.classList.add("current");
-      else if (a && !a.skipped) {
-        if (i < session.test.length) el.classList.add(a.correct ? "done-correct" : "done-wrong");
-        else el.classList.add("done-correct");
-      }
+      if (session.flags[itemAt(i).qid]) el.classList.add("flagged");
+    }
+    updatePalette();
+    updateFlagsBadge();
+    updateNavButtons();
+  }
+
+  /* ---------- panel paleta ---------- */
+  var elPalettePanel = document.getElementById("palettePanel");
+  var elPaletteGrid = document.getElementById("paletteGrid");
+  var elPaletteBtn = document.getElementById("paletteBtn");
+
+  function buildPalette() {
+    elPaletteGrid.innerHTML = "";
+    for (var i = 0; i < session.total; i++) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "palette-item";
+      btn.textContent = String(i + 1);
+      (function (idx) {
+        btn.addEventListener("click", function () {
+          goTo(idx);
+          elPalettePanel.style.display = "none";
+        });
+      })(i);
+      elPaletteGrid.appendChild(btn);
     }
   }
+
+  function updatePalette() {
+    var children = elPaletteGrid.children;
+    for (var i = 0; i < session.total; i++) {
+      var el = children[i];
+      el.className = "palette-item " + stateClassAt(i);
+      if (i === session.index) el.classList.add("current");
+      if (session.flags[itemAt(i).qid]) el.classList.add("flagged");
+    }
+  }
+
+  elPaletteBtn.addEventListener("click", function () {
+    var show = elPalettePanel.style.display === "none";
+    elPalettePanel.style.display = show ? "block" : "none";
+  });
+
+  /* ---------- navegación libre (no obliga a responder) ---------- */
+  var elPrevBtn = document.getElementById("prevBtn");
+  var elNextBtn = document.getElementById("nextBtn");
+
+  function goTo(index) {
+    if (index < 0 || index >= session.total) return;
+    session.index = index;
+    renderCurrent();
+  }
+
+  function updateNavButtons() {
+    elPrevBtn.disabled = session.index === 0;
+    elNextBtn.textContent = session.index === session.total - 1 ? "Finalizar ›" : "Siguiente ›";
+  }
+
+  elPrevBtn.addEventListener("click", function () { goTo(session.index - 1); });
+  elNextBtn.addEventListener("click", function () {
+    if (session.index === session.total - 1) {
+      finishSession();
+    } else {
+      goTo(session.index + 1);
+    }
+  });
+
+  /* ---------- acceso rápido a marcadas ---------- */
+  var elFlagsNavBtn = document.getElementById("flagsNavBtn");
+  var elFlagsBadge = document.getElementById("flagsBadge");
+
+  function flaggedIndices() {
+    var out = [];
+    for (var i = 0; i < session.total; i++) {
+      if (session.flags[itemAt(i).qid]) out.push(i);
+    }
+    return out;
+  }
+
+  function updateFlagsBadge() {
+    var flagged = flaggedIndices();
+    elFlagsNavBtn.style.display = flagged.length ? "flex" : "none";
+    elFlagsBadge.textContent = String(flagged.length);
+  }
+
+  elFlagsNavBtn.addEventListener("click", function () {
+    var flagged = flaggedIndices();
+    if (flagged.length === 0) return;
+    var next = flagged.find(function (i) { return i > session.index; });
+    goTo(next !== undefined ? next : flagged[0]);
+  });
 
   /* ---------- element refs ---------- */
   var elQTags = document.getElementById("qTags");
@@ -252,11 +357,13 @@
   var elFlagBtn = document.getElementById("flagBtn");
 
   var currentSelection = [];
+  var currentMatch = null;
   var locked = false;
 
   function renderCurrent() {
     var item = currentItem();
     currentSelection = [];
+    currentMatch = null;
     locked = false;
 
     document.getElementById("ticketNum").textContent = String(session.index + 1).padStart(3, "0");
@@ -290,7 +397,13 @@
     elQTags.innerHTML = tagsHtml(q, extra);
     elQText.textContent = q.enunciado;
 
-    var visibleImages = q.tipo === "matching_image" ? q.imagenes.slice(0, 1) : q.imagenes;
+    var interactive = (q.tipo === "matching_table" || q.tipo === "matching_image") && q.tabla && q.tabla.length > 0;
+    var legacyImageMatch = q.tipo === "matching_image" && !interactive;
+
+    // Las preguntas ya migradas a tabla interactiva no muestran imagen: la
+    // tabla la sustituye por completo (algunas matching_table conservan un
+    // campo "imagenes" heredado de antes de migrar, que ya no debe pintarse).
+    var visibleImages = interactive ? [] : (q.tipo === "matching_image" ? q.imagenes.slice(0, 1) : q.imagenes);
     visibleImages.forEach(function (src) {
       var img = document.createElement("img");
       img.src = src;
@@ -299,14 +412,25 @@
       elQImages.appendChild(img);
     });
 
-    if (q.tipo === "matching_table") renderMatchingTable(q);
+    if (interactive) renderMatchingInteractive(q);
+    else if (q.tipo === "matching_table") renderMatchingTable(q);
     else if (q.tipo === "matching_image") renderMatchingImage(q);
     else renderChoiceOptions(q);
 
-    var isMatching = q.tipo === "matching_table" || q.tipo === "matching_image";
     elCheckBtn.style.display = "inline-flex";
-    elCheckBtn.textContent = isMatching ? "Siguiente pregunta" : "Verificar respuesta";
-    elCheckBtn.disabled = isMatching;
+    if (interactive) {
+      elCheckBtn.textContent = "Comprobar emparejamiento";
+      elCheckBtn.disabled = true;
+    } else if (legacyImageMatch) {
+      elCheckBtn.textContent = "Siguiente pregunta";
+      elCheckBtn.disabled = true;
+    } else if (q.tipo === "matching_table") {
+      elCheckBtn.textContent = "Verificar emparejamiento";
+      elCheckBtn.disabled = true;
+    } else {
+      elCheckBtn.textContent = "Verificar respuesta";
+      elCheckBtn.disabled = false;
+    }
     elSkipBtn.style.display = "inline-block";
   }
 
@@ -315,6 +439,8 @@
       var n = q.correct_indices.length;
       elMultiHint.textContent = "Elige " + n + " opción" + (n > 1 ? "es" : "");
     }
+    var draft = session.drafts[q.qid] || [];
+    currentSelection = draft.slice();
     q.opciones.forEach(function (opt, idx) {
       var row = document.createElement("div");
       row.className = "option " + (q.tipo === "multi" ? "checkbox" : "radio");
@@ -325,6 +451,7 @@
           ? '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#052420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
           : "<i></i>") +
         '</span><span class="option-text">' + escapeHtml(opt) + "</span>";
+      if (draft.indexOf(idx) > -1) row.classList.add("selected");
       row.addEventListener("click", function () {
         if (locked) return;
         if (q.tipo === "multi") {
@@ -337,6 +464,7 @@
           Array.prototype.forEach.call(elOptions.children, function (r) { r.classList.remove("selected"); });
           row.classList.add("selected");
         }
+        session.drafts[q.qid] = currentSelection.slice();
       });
       elOptions.appendChild(row);
     });
@@ -383,6 +511,217 @@
       markAnsweredCorrectByReveal(q);
     });
     elMatchArea.appendChild(wrap);
+  }
+
+  /* ---------- emparejar interactivo ---------- */
+  function renderMatchingInteractive(q) {
+    var pairs = q.tabla;
+    var n = pairs.length;
+    var answered = session.answers[q.qid];
+
+    // Si ya está corregida, mostramos directamente la revisión clara en vez
+    // de reconstruir las fichas clicables.
+    if (answered && !answered.skipped && answered.pairing) {
+      renderMatchReview(q, answered);
+      currentMatch = null;
+      return;
+    }
+
+    var defOrder;
+    if (answered && answered.defOrder) {
+      defOrder = answered.defOrder;
+    } else {
+      if (!session.drafts[q.qid]) session.drafts[q.qid] = {};
+      if (!session.drafts[q.qid].defOrder) {
+        session.drafts[q.qid].defOrder = shuffle(pairs.map(function (_, i) { return i; }));
+      }
+      defOrder = session.drafts[q.qid].defOrder;
+    }
+    var draftPairing = (!answered && session.drafts[q.qid] && session.drafts[q.qid].pairing) || {};
+
+    var wrap = document.createElement("div");
+    var hint = document.createElement("p");
+    hint.className = "match-instructions";
+    hint.textContent = "Toca un término y luego su definición para emparejarlos. Vuelve a tocar para deshacer.";
+    wrap.appendChild(hint);
+
+    var area = document.createElement("div");
+    area.className = "match-interactive";
+    var termsCol = document.createElement("div");
+    termsCol.className = "match-col match-terms";
+    var defsCol = document.createElement("div");
+    defsCol.className = "match-col match-defs";
+
+    var termEls = [], defEls = [];
+    var pairing = {};
+    var selectedTerm = null;
+
+    pairs.forEach(function (pair, i) {
+      var el = document.createElement("button");
+      el.type = "button";
+      el.className = "match-chip match-term";
+      el.textContent = (i + 1) + ". " + pair[0];
+      termsCol.appendChild(el);
+      termEls.push(el);
+    });
+
+    defOrder.forEach(function (defIdx, slot) {
+      var el = document.createElement("button");
+      el.type = "button";
+      el.className = "match-chip match-def";
+      el.textContent = String.fromCharCode(65 + slot) + ". " + pairs[defIdx][1];
+      defsCol.appendChild(el);
+      defEls.push(el);
+    });
+
+    area.appendChild(termsCol);
+    area.appendChild(defsCol);
+    wrap.appendChild(area);
+    elMatchArea.appendChild(wrap);
+
+    function hue(termIdx) { return (termIdx * 67) % 360; }
+
+    function updateHint() {
+      var count = Object.keys(pairing).length;
+      elMultiHint.textContent = count < n ? "Empareja los " + n + " términos (" + count + "/" + n + ")" : "";
+      elCheckBtn.disabled = count < n;
+    }
+
+    function link(termIdx, slot) {
+      unlinkTerm(termIdx);
+      unlinkSlot(slot);
+      pairing[termIdx] = slot;
+      termEls[termIdx].style.setProperty("--pair-hue", hue(termIdx));
+      defEls[slot].style.setProperty("--pair-hue", hue(termIdx));
+      termEls[termIdx].classList.add("paired");
+      defEls[slot].classList.add("paired");
+      session.drafts[q.qid].pairing = pairing;
+      updateHint();
+    }
+
+    function unlinkTerm(termIdx) {
+      var slot = pairing[termIdx];
+      if (slot === undefined) return;
+      termEls[termIdx].classList.remove("paired");
+      defEls[slot].classList.remove("paired");
+      delete pairing[termIdx];
+      if (session.drafts[q.qid]) session.drafts[q.qid].pairing = pairing;
+    }
+
+    function unlinkSlot(slot) {
+      var found = Object.keys(pairing).filter(function (k) { return pairing[k] === slot; })[0];
+      if (found !== undefined) unlinkTerm(parseInt(found, 10));
+    }
+
+    termEls.forEach(function (el, termIdx) {
+      el.addEventListener("click", function () {
+        if (locked) return;
+        if (selectedTerm === termIdx) { selectedTerm = null; el.classList.remove("active"); return; }
+        if (el.classList.contains("paired")) { unlinkTerm(termIdx); el.classList.remove("active"); selectedTerm = null; updateHint(); return; }
+        if (selectedTerm !== null) termEls[selectedTerm].classList.remove("active");
+        selectedTerm = termIdx;
+        el.classList.add("active");
+      });
+    });
+
+    defEls.forEach(function (el, slot) {
+      el.addEventListener("click", function () {
+        if (locked) return;
+        if (el.classList.contains("paired")) {
+          var found = Object.keys(pairing).filter(function (k) { return pairing[k] === slot; })[0];
+          unlinkSlot(slot);
+          if (found !== undefined && selectedTerm === parseInt(found, 10)) selectedTerm = null;
+          updateHint();
+          return;
+        }
+        if (selectedTerm === null) return;
+        var t = selectedTerm;
+        termEls[t].classList.remove("active");
+        selectedTerm = null;
+        link(t, slot);
+      });
+    });
+
+    Object.keys(draftPairing).forEach(function (termIdx) {
+      link(parseInt(termIdx, 10), draftPairing[termIdx]);
+    });
+    updateHint();
+
+    currentMatch = { q: q, defOrder: defOrder, pairing: pairing, termEls: termEls, defEls: defEls };
+  }
+
+  // Lista de revisión clara: un término por fila, con tu respuesta y,
+  // si fallaste, la respuesta correcta debajo. Sustituye el coloreado de
+  // fichas (que hacía perder de vista qué iba emparejado con qué).
+  function renderMatchReview(q, a) {
+    var pairs = q.tabla;
+    var defOrder = a.defOrder || pairs.map(function (_, i) { return i; });
+
+    elMatchArea.innerHTML = "";
+    var wrap = document.createElement("div");
+    wrap.className = "match-review";
+
+    pairs.forEach(function (pair, termIdx) {
+      var slot = a.pairing ? a.pairing[termIdx] : undefined;
+      var correctSlot = defOrder.indexOf(termIdx);
+      var yourDefIdx = (slot !== undefined && slot !== null) ? defOrder[slot] : undefined;
+      var ok = slot !== undefined && slot === correctSlot;
+
+      var row = document.createElement("div");
+      row.className = "match-review-row " + (ok ? "correct" : "wrong");
+
+      var head = document.createElement("div");
+      head.className = "mr-term";
+      var icon = ok
+        ? '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+      head.innerHTML = '<span class="mr-icon">' + icon + "</span>" + escapeHtml(pair[0]);
+      row.appendChild(head);
+
+      var yourAns = document.createElement("div");
+      yourAns.className = "mr-line mr-your";
+      yourAns.innerHTML = '<b>Tu respuesta:</b> ' + escapeHtml(yourDefIdx !== undefined ? pairs[yourDefIdx][1] : "— sin respuesta —");
+      row.appendChild(yourAns);
+
+      if (!ok) {
+        var correctAns = document.createElement("div");
+        correctAns.className = "mr-line mr-correct";
+        correctAns.innerHTML = '<b>Correcta:</b> ' + escapeHtml(pair[1]);
+        row.appendChild(correctAns);
+      }
+
+      wrap.appendChild(row);
+    });
+
+    elMatchArea.appendChild(wrap);
+  }
+
+  function evaluateMatching() {
+    var cm = currentMatch;
+    if (!cm) return;
+    locked = true;
+    var pairing = {};
+    var allOk = true;
+    cm.termEls.forEach(function (tEl, termIdx) {
+      var slot = cm.pairing[termIdx];
+      pairing[termIdx] = slot;
+      var correctSlot = cm.defOrder.indexOf(termIdx);
+      var ok = slot === correctSlot;
+      if (!ok) allOk = false;
+    });
+
+    var answer = { pairing: pairing, defOrder: cm.defOrder, correct: allOk, skipped: false };
+    session.answers[cm.q.qid] = answer;
+    window.ExamStorage.record(cm.q.qid, allOk);
+    updateTrail();
+    elMultiHint.textContent = "";
+
+    renderMatchReview(cm.q, answer);
+    currentMatch = null;
+
+    if (session.mode === "practice") showExplanation(cm.q.explicacion, allOk);
+    elCheckBtn.textContent = session.index === session.total - 1 ? "Ver informe final" : "Siguiente pregunta";
+    elSkipBtn.style.display = "none";
   }
 
   function renderMatchingTable(q) {
@@ -435,6 +774,10 @@
     textarea.className = "redaccion-box";
     textarea.placeholder = "Escribe tu respuesta aquí…";
     textarea.id = "redInput";
+    textarea.value = session.drafts[q.qid] || "";
+    textarea.addEventListener("input", function () {
+      session.drafts[q.qid] = textarea.value;
+    });
     elRedArea.appendChild(textarea);
     var hint = document.createElement("div");
     hint.className = "redaccion-points";
@@ -460,7 +803,10 @@
       return;
     }
     if (locked) { goNext(); return; }
-    if (item.q.tipo === "matching_table" || item.q.tipo === "matching_image") return; // se gestiona en el botón de revelar
+    if (item.q.tipo === "matching_table" || item.q.tipo === "matching_image") {
+      if (currentMatch) { evaluateMatching(); return; }
+      return; // legacy: se gestiona en el botón de revelar
+    }
     if (currentSelection.length === 0) return;
     evaluateAnswer(item.q);
   });
@@ -497,6 +843,15 @@
     if (item.kind === "red") {
       document.getElementById("redInput").value = a.text || "";
       elCheckBtn.textContent = session.index === session.total - 1 ? "Guardar y ver informe" : "Guardar y continuar";
+      elSkipBtn.style.display = "none";
+      return;
+    }
+    if (item.q.tipo === "matching_table" || item.q.tipo === "matching_image") {
+      // La revisión (lista término/respuesta/correcta) ya se pinta dentro
+      // de renderMatchingInteractive cuando detecta que hay respuesta guardada.
+      if (session.mode === "practice") showExplanation(item.q.explicacion, a.correct);
+      elCheckBtn.textContent = session.index === session.total - 1 ? "Ver informe final" : "Siguiente pregunta";
+      elCheckBtn.disabled = false;
       elSkipBtn.style.display = "none";
       return;
     }
@@ -537,6 +892,7 @@
     var item = currentItem();
     session.flags[item.q.qid] = !session.flags[item.q.qid];
     elFlagBtn.classList.toggle("flagged", !!session.flags[item.q.qid]);
+    updateTrail();
   });
 
   document.getElementById("exitBtn").addEventListener("click", function () {
@@ -637,6 +993,19 @@
       document.getElementById("downloadRedBtn").onclick = function () {
         descargarTexto(bloque, "redaccion_" + new Date().toISOString().slice(0, 10) + ".txt");
       };
+      var copyBtn = document.getElementById("copyPromptBtn");
+      var copyBtnDefaultText = "Copiar prompt para IA";
+      copyBtn.textContent = copyBtnDefaultText;
+      copyBtn.onclick = function () {
+        var prompt = generarPromptIA();
+        copiarAlPortapapeles(prompt).then(function () {
+          copyBtn.textContent = "¡Copiado! Pégalo en tu IA favorita";
+          setTimeout(function () { copyBtn.textContent = copyBtnDefaultText; }, 2200);
+        }).catch(function () {
+          copyBtn.textContent = "No se pudo copiar — usa el .txt";
+          setTimeout(function () { copyBtn.textContent = copyBtnDefaultText; }, 2200);
+        });
+      };
     } else {
       redSection.style.display = "none";
     }
@@ -644,6 +1013,42 @@
     document.getElementById("view-session").style.display = "none";
     document.getElementById("view-results").style.display = "block";
     window.scrollTo({ top: 0, behavior: "instant" });
+  }
+
+  function generarPromptIA() {
+    var lineas = [
+      "Actúa como profesor corrigiendo un examen de preguntas de desarrollo/redacción.",
+      "Para cada pregunta que te paso a continuación:",
+      "1. Evalúa mi respuesta según lo que pide el enunciado.",
+      "2. Ponme una nota sobre el máximo de puntos indicado entre corchetes.",
+      "3. Explica en 2-3 líneas qué está bien, qué falta o qué es incorrecto.",
+      "Al final, dame la nota total sumando todas las puntuaciones.",
+      "",
+      generarBloqueRedaccion(),
+    ];
+    return lineas.join("\n");
+  }
+
+  function copiarAlPortapapeles(texto) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(texto);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = texto;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        ok ? resolve() : reject(new Error("execCommand falló"));
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   function generarBloqueRedaccion() {
