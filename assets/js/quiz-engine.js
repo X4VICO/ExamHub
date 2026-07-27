@@ -516,7 +516,11 @@
   /* ---------- emparejar interactivo ---------- */
   function renderMatchingInteractive(q) {
     var pairs = q.tabla;
-    var n = pairs.length;
+    var n = pairs.length; // términos reales, los únicos que hay que emparejar y se corrigen
+    var decoys = q.senuelos || []; // señuelos del lado de la definición (derecha)
+    var decoyTerms = q.senuelos_terminos || []; // señuelos del lado del término (izquierda): sin respuesta correcta
+    var poolSize = n + decoys.length;
+    var totalTerms = n + decoyTerms.length;
     var answered = session.answers[q.qid];
 
     // Si ya está corregida, mostramos directamente la revisión clara en vez
@@ -533,11 +537,19 @@
     } else {
       if (!session.drafts[q.qid]) session.drafts[q.qid] = {};
       if (!session.drafts[q.qid].defOrder) {
-        session.drafts[q.qid].defOrder = shuffle(pairs.map(function (_, i) { return i; }));
+        var poolIdxs = [];
+        for (var i = 0; i < poolSize; i++) poolIdxs.push(i);
+        session.drafts[q.qid].defOrder = shuffle(poolIdxs);
       }
       defOrder = session.drafts[q.qid].defOrder;
     }
     var draftPairing = (!answered && session.drafts[q.qid] && session.drafts[q.qid].pairing) || {};
+
+    // Texto de un elemento del pool de definiciones: índices < n son
+    // definiciones reales; índices >= n son señuelos sin término.
+    function poolText(poolIdx) {
+      return poolIdx < n ? pairs[poolIdx][1] : decoys[poolIdx - n];
+    }
 
     var wrap = document.createElement("div");
     var hint = document.createElement("p");
@@ -564,12 +576,23 @@
       termsCol.appendChild(el);
       termEls.push(el);
     });
+    // Señuelos de término: se muestran mezclados igual que cualquier otro,
+    // sin marca visual — si no, dejarían de ser un señuelo.
+    decoyTerms.forEach(function (text, j) {
+      var i = n + j;
+      var el = document.createElement("button");
+      el.type = "button";
+      el.className = "match-chip match-term";
+      el.textContent = (i + 1) + ". " + text;
+      termsCol.appendChild(el);
+      termEls.push(el);
+    });
 
-    defOrder.forEach(function (defIdx, slot) {
+    defOrder.forEach(function (poolIdx, slot) {
       var el = document.createElement("button");
       el.type = "button";
       el.className = "match-chip match-def";
-      el.textContent = String.fromCharCode(65 + slot) + ". " + pairs[defIdx][1];
+      el.textContent = String.fromCharCode(65 + slot) + ". " + poolText(poolIdx);
       defsCol.appendChild(el);
       defEls.push(el);
     });
@@ -582,7 +605,10 @@
     function hue(termIdx) { return (termIdx * 67) % 360; }
 
     function updateHint() {
-      var count = Object.keys(pairing).length;
+      // Solo los términos reales (0..n-1) cuentan para poder verificar; los
+      // señuelos de término son opcionales, emparejarlos o no da igual.
+      var count = 0;
+      for (var i = 0; i < n; i++) if (pairing[i] !== undefined) count++;
       elMultiHint.textContent = count < n ? "Empareja los " + n + " términos (" + count + "/" + n + ")" : "";
       elCheckBtn.disabled = count < n;
     }
@@ -647,15 +673,26 @@
     });
     updateHint();
 
-    currentMatch = { q: q, defOrder: defOrder, pairing: pairing, termEls: termEls, defEls: defEls };
+    currentMatch = { q: q, n: n, pairs: pairs, poolText: poolText, defOrder: defOrder, pairing: pairing, termEls: termEls, defEls: defEls };
   }
 
   // Lista de revisión clara: un término por fila, con tu respuesta y,
   // si fallaste, la respuesta correcta debajo. Sustituye el coloreado de
   // fichas (que hacía perder de vista qué iba emparejado con qué).
+  // La corrección compara por TEXTO (no por posición): así, si dos términos
+  // comparten la misma definición correcta (p. ej. dos características que
+  // son "tcp"), emparejar con cualquiera de las dos casillas cuenta como
+  // acierto. Los señuelos de término (sin tabla) no se listan aquí: no
+  // tienen respuesta correcta posible, así que no se corrigen.
   function renderMatchReview(q, a) {
     var pairs = q.tabla;
+    var decoys = q.senuelos || [];
+    var n = pairs.length;
     var defOrder = a.defOrder || pairs.map(function (_, i) { return i; });
+
+    function poolText(poolIdx) {
+      return poolIdx < n ? pairs[poolIdx][1] : decoys[poolIdx - n];
+    }
 
     elMatchArea.innerHTML = "";
     var wrap = document.createElement("div");
@@ -663,9 +700,8 @@
 
     pairs.forEach(function (pair, termIdx) {
       var slot = a.pairing ? a.pairing[termIdx] : undefined;
-      var correctSlot = defOrder.indexOf(termIdx);
-      var yourDefIdx = (slot !== undefined && slot !== null) ? defOrder[slot] : undefined;
-      var ok = slot !== undefined && slot === correctSlot;
+      var yourPoolIdx = (slot !== undefined && slot !== null) ? defOrder[slot] : undefined;
+      var ok = yourPoolIdx !== undefined && poolText(yourPoolIdx) === pair[1];
 
       var row = document.createElement("div");
       row.className = "match-review-row " + (ok ? "correct" : "wrong");
@@ -680,7 +716,7 @@
 
       var yourAns = document.createElement("div");
       yourAns.className = "mr-line mr-your";
-      yourAns.innerHTML = '<b>Tu respuesta:</b> ' + escapeHtml(yourDefIdx !== undefined ? pairs[yourDefIdx][1] : "— sin respuesta —");
+      yourAns.innerHTML = '<b>Tu respuesta:</b> ' + escapeHtml(yourPoolIdx !== undefined ? poolText(yourPoolIdx) : "— sin respuesta —");
       row.appendChild(yourAns);
 
       if (!ok) {
@@ -702,12 +738,18 @@
     locked = true;
     var pairing = {};
     var allOk = true;
-    cm.termEls.forEach(function (tEl, termIdx) {
+    // Solo se corrigen los términos reales (0..n-1). Los señuelos de
+    // término, si el usuario los emparejó por curiosidad, se guardan pero
+    // no afectan a la nota.
+    for (var termIdx = 0; termIdx < cm.n; termIdx++) {
       var slot = cm.pairing[termIdx];
       pairing[termIdx] = slot;
-      var correctSlot = cm.defOrder.indexOf(termIdx);
-      var ok = slot === correctSlot;
+      var ok = slot !== undefined && cm.poolText(cm.defOrder[slot]) === cm.pairs[termIdx][1];
       if (!ok) allOk = false;
+    }
+    Object.keys(cm.pairing).forEach(function (k) {
+      var idx = parseInt(k, 10);
+      if (idx >= cm.n) pairing[idx] = cm.pairing[idx];
     });
 
     var answer = { pairing: pairing, defOrder: cm.defOrder, correct: allOk, skipped: false };
