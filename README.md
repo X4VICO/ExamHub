@@ -13,22 +13,6 @@ normal, sin instalación, sin backend).
 
 ---
 
-## 🛠️ Pendientes de pulir (tasklist viva)
-
-Cosas que van saliendo al probar la web y que hay que arreglar. Se añaden
-aquí en cuanto se detectan y se quitan en cuanto quedan arregladas y
-confirmadas — esta sección no es un historial, es solo lo que está abierto
-ahora mismo.
-
-- [ ] Migrar las 58 preguntas `matching_image` a `tabla` (interactivas),
-      empezando por los módulos con menos preguntas: `m01-02` (1) →
-      `m21-23` / `m24-25` / `m26-28` (2 cada uno) → resto en orden ascendente.
-- [ ] Seguir probando el motor de emparejar interactivo (`matching_table`)
-      en distintos temas y dispositivos para detectar más casos raros.
-
----
-
-
 ## 📁 Estructura del proyecto
 
 ```
