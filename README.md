@@ -13,19 +13,6 @@ normal, sin instalación, sin backend).
 
 ---
 
-## 🛠️ Pendientes de pulir (tasklist viva)
-
-[ ] Migrar las 58 preguntas matching_image a tabla (interactivas),
-    empezando por los módulos con menos preguntas: m01-02 (1) ✅ →
-    m03-04 (9) ✅ → m05-10 (7) ✅ → m21-23 / m24-25 / m26-28 (2 cada
-    uno, siguiente: m26-28) → resto en orden ascendente.
-    Nuevo: soporte de señuelos (senuelos / senuelos_terminos) y
-    corrección por texto para valores repetidos — tenerlo en cuenta
-    al transcribir cada imagen.
-
----
-
-
 ## 📁 Estructura del proyecto
 
 ```
