@@ -1,14 +1,705 @@
 {
-  "encrypted": true,
-  "kdf_iterations": 250000,
   "asignatura": "CyberOps Associate",
   "asignatura_slug": "cyberops-associate",
   "tema": "Módulos 24-25: Protocolos y Archivos de registro",
   "tema_id": "cyberops-associate_m24-25",
   "orden": 8,
-  "test_count": 30,
-  "redaccion_count": 0,
-  "salt": "PZBWVjYJducs4NBsfnztrA==",
-  "iv": "OEZc3dI9irWNUJMp",
-  "ciphertext": "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"
+  "test": [
+    {
+      "enunciado": "¿Cuáles son los dos protocolos de la capa de aplicación que administran el intercambio de mensajes entre un cliente con un navegador web y un servidor web remoto? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "HTML",
+          "correcta": false
+        },
+        {
+          "texto": "DNS",
+          "correcta": false
+        },
+        {
+          "texto": "HTTPS",
+          "correcta": true
+        },
+        {
+          "texto": "DHCP",
+          "correcta": false
+        },
+        {
+          "texto": "HTTP",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Hypertext Transfer Protocol (HTTP) y HTTP Secure (HTTPS) son dos protocolos de la capa de aplicación que administran las solicitudes de contenido de los clientes y las respuestas dadas por el servidor web. HTML (Hypertext Mark-up Language) es el lenguaje de codificación que describe el contenido y las características de visualización de una página web. DNS es para la resolución de nombres de dominio en direcciones IP. DHCP administra y proporciona configuraciones de IP dinámicas a los clientes."
+    },
+    {
+      "enunciado": "¿Qué protocolo aprovechan los ciberdelincuentes para crear iFrames maliciosos?",
+      "opciones": [
+        {
+          "texto": "HTTP",
+          "correcta": true
+        },
+        {
+          "texto": "ARP",
+          "correcta": false
+        },
+        {
+          "texto": "DHCP",
+          "correcta": false
+        },
+        {
+          "texto": "DNS",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Un elemento HTML conocido como trama en línea o iFrame permite que el navegador cargue una página web diferente de otra fuente."
+    },
+    {
+      "enunciado": "¿Qué enfoque se debe adoptar para evitar ataques dirigidos a Syslog?",
+      "opciones": [
+        {
+          "texto": "Usar una VPN entre un cliente Syslog y el servidor Syslog.",
+          "correcta": false
+        },
+        {
+          "texto": "Usar un servidor basado en Linux.",
+          "correcta": false
+        },
+        {
+          "texto": "Crear una ACL que permite solo el tráfico TCP hacia el servidor Syslog.",
+          "correcta": false
+        },
+        {
+          "texto": "Usar syslog-ng.",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Los hackers pueden intentar bloquear a clientes para que no puedan enviar datos al servidor Syslog, manipular o borrar los datos registrados, o manipular el software utilizado para transmitir mensajes entre los clientes y el servidor. Syslog-ng es la última generación de Syslog y contiene mejoras para evitar algunos de los ataques."
+    },
+    {
+      "enunciado": "¿Qué tecnología se usaría para crear los registros (logs) del servidor generados por los dispositivos de red, que además serán revisados por un técnico en redes de nivel básico que trabaja el turno nocturno en un centro de datos (data center)?",
+      "opciones": [
+        {
+          "texto": "SysLog",
+          "correcta": true
+        },
+        {
+          "texto": "VPN",
+          "correcta": false
+        },
+        {
+          "texto": "NAT",
+          "correcta": false
+        },
+        {
+          "texto": "ACL",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Syslog es una programa daemon o servicio que se ejecuta en un servidor que acepta mensajes enviados por dispositivos de red. Estos registros (logs) son frecuentemente examinados para detectar inconsistencias y problemas en la red."
+    },
+    {
+      "enunciado": "¿Qué técnica utilizaría un atacante para disfrazar rastros de un ataque en curso?",
+      "opciones": [
+        {
+          "texto": "Crearía un iFrame invisible en una página web.",
+          "correcta": false
+        },
+        {
+          "texto": "Alterar la información de fecha y hora (time information) atacando la infraestructura NTP.",
+          "correcta": true
+        },
+        {
+          "texto": "Encapsularía otros protocolos dentro de DNS para evadir las medidas de seguridad.",
+          "correcta": false
+        },
+        {
+          "texto": "Utilizaría SSL para encapsular malware.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El protocolo Network Time Protocol (NTP) utiliza una jerarquía de fuentes horarias para proporcionar un reloj de hora coherente a los dispositivos de infraestructura de red. Los atacantes pueden intentar atacar la infraestructura de NTP para dañar la información horaria utilizada en los registros de red (network logs)."
+    },
+    {
+      "enunciado": "¿Cuál de los siguientes protocolos es un protocolo de resolución de nombres que a menudo utiliza el malware para comunicarse con los servidores de comando y control (CnC)?",
+      "opciones": [
+        {
+          "texto": "IMAP",
+          "correcta": false
+        },
+        {
+          "texto": "DNS",
+          "correcta": true
+        },
+        {
+          "texto": "ICMP",
+          "correcta": false
+        },
+        {
+          "texto": "HTTPS",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El Servicio de nombres de dominio (DNS) se utiliza para convertir nombres de dominio en direcciones IP. Algunas organizaciones tienen implementadas políticas menos rigurosas para protegerse contra amenazas basadas en DNS, en comparación con las políticas que tienen implementadas para otros ataques."
+    },
+    {
+      "enunciado": "¿Qué método es utilizado por algunos tipos de malware para transferir archivos de hosts infectados a un host atacante?",
+      "opciones": [
+        {
+          "texto": "iFrame injection (Inyección de iFrame)",
+          "correcta": false
+        },
+        {
+          "texto": "UDP infiltration (Infiltración UDP)",
+          "correcta": false
+        },
+        {
+          "texto": "ICMP tunneling (Tunelización ICMP)",
+          "correcta": true
+        },
+        {
+          "texto": "HTTPS traffic encryption (Encriptación de tráfico HTTPS)",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El tráfico ICMP desde el interior de la empresa también es una amenaza. Algunos tipos de malware utilizan paquetes ICMP para transferir archivos desde hosts infectados a los atacantes mediante tunelización ICMP"
+    },
+    {
+      "enunciado": "¿Por qué la tecnología HTTPS añade complejidad al monitoreo de la seguridad de la red?",
+      "opciones": [
+        {
+          "texto": "HTTPS utiliza tecnología de tunelización para fines de confidencialidad.",
+          "correcta": false
+        },
+        {
+          "texto": "HTTPS utiliza NAT/PAT para ocultar la dirección IP de origen real.",
+          "correcta": false
+        },
+        {
+          "texto": "HTTPS utiliza cifrado integral para ocultar el tráfico de datos.",
+          "correcta": true
+        },
+        {
+          "texto": "HTTPS cambia dinámicamente el número de puerto en el servidor web.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Con HTTPS, el cliente genera una clave simétrica después de que verifica la confiabilidad del servidor web. La clave simétrica se cifra con la clave pública del servidor web y luego se envía al servidor web. El servidor web utiliza su clave pública para descifrar la clave. La clave se usa, posteriormente, para cifrar los datos solicitados por el cliente y los datos se envían al cliente. Este cifrado integral complica el monitoreo de la seguridad de la red en línea. El número de puerto HTTPS, que suele ser 443, se configura estáticamente en el servidor web."
+    },
+    {
+      "enunciado": "¿Qué tipo de mensaje ICMP entrante debe ser detenido?",
+      "opciones": [
+        {
+          "texto": "Echo-reply (respuesta echo)",
+          "correcta": false
+        },
+        {
+          "texto": "Source quench (alivio de fuente)",
+          "correcta": false
+        },
+        {
+          "texto": "Echo",
+          "correcta": true
+        },
+        {
+          "texto": "Unreachable (inalcanzable)",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Al paquete ICMP «echo» no se le debe permitir entrar a una interfaz. La respuesta de echo (echo-reply) debe permitirse para que cuando un dispositivo interno haga ping a un dispositivo externo, se permita que la respuesta vuelva."
+    },
+    {
+      "enunciado": "¿Qué técnica es necesaria para garantizar una transferencia de datos privada mediante una VPN?",
+      "opciones": [
+        {
+          "texto": "Cifrado",
+          "correcta": true
+        },
+        {
+          "texto": "Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Virtualización",
+          "correcta": false
+        },
+        {
+          "texto": "Escalabilidad",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Las transferencias de datos confidenciales y seguras mediante VPN requieren cifrado de datos."
+    },
+    {
+      "enunciado": "¿Qué dos tecnologías se utilizan principalmente en redes entre pares? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "Snort",
+          "correcta": false
+        },
+        {
+          "texto": "Wireshark",
+          "correcta": false
+        },
+        {
+          "texto": "BitTorrent",
+          "correcta": true
+        },
+        {
+          "texto": "Darknet",
+          "correcta": false
+        },
+        {
+          "texto": "Bitcoin",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Bitcoin se utiliza para compartir un libro mayor o una base de datos distribuida. BitTorrent se emplea para el uso compartido de archivos."
+    },
+    {
+      "enunciado": "¿Qué es Tor?",
+      "opciones": [
+        {
+          "texto": "Una regla creada con el fin de establecer la correspondencia con la firma de un ataque conocido",
+          "correcta": false
+        },
+        {
+          "texto": "Una forma de compartir procesadores entre dispositivos de red a través de Internet",
+          "correcta": false
+        },
+        {
+          "texto": "Un tipo de software de mensajería instantánea (IM) utilizado en la darknet (red oscura)",
+          "correcta": false
+        },
+        {
+          "texto": "Una plataforma de software y una red de hosts P2P que funcionan como routers de Internet",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Se utiliza un navegador especial para acceder a la red Tor. Este navegador permite que los usuarios naveguen por Internet de forma anónima."
+    },
+    {
+      "enunciado": "¿Qué tipo de ataque llevan a cabo los actores de amenazas contra una red para determinar qué direcciones IP, protocolos y puertos están permitidos por las ACL?",
+      "opciones": [
+        {
+          "texto": "Denegación de servicio",
+          "correcta": false
+        },
+        {
+          "texto": "Ingeniería social",
+          "correcta": false
+        },
+        {
+          "texto": "Suplantación de identidad",
+          "correcta": false
+        },
+        {
+          "texto": "Reconocimiento",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Las ACL de filtrado de paquetes utilizan reglas para filtrar el tráfico entrante y el tráfico saliente. Estas reglas se definen mediante la especificación de direcciones IP, números de puertos y protocolos que se vincularán entre sí. Los actores de amenazas pueden utilizar un ataque de reconocimiento que implique escaneo de puertos o pruebas de penetración para determinar qué direcciones IP, protocolos y puertos permiten las ACL."
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes afirmaciones describe los datos de sesiones en los registros de seguridad?",
+      "opciones": [
+        {
+          "texto": "Detallan las actividades de la red entre los hosts de la red.",
+          "correcta": false
+        },
+        {
+          "texto": "Pueden utilizarse para describir o predecir el comportamiento de la red.",
+          "correcta": false
+        },
+        {
+          "texto": "Son el registro de una conversación entre los hosts de la red.",
+          "correcta": true
+        },
+        {
+          "texto": "Muestran el resultado de las sesiones de red.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Los datos de sesiones son el registro de una conversación entre terminales de red."
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes afirmaciones describe los datos estadísticos en los procesos de monitoreo de la seguridad de la red?",
+      "opciones": [
+        {
+          "texto": "Se obtienen mediante el análisis de otros tipos de datos de red.",
+          "correcta": true
+        },
+        {
+          "texto": "Contienen las conversaciones entre los hosts de la red.",
+          "correcta": false
+        },
+        {
+          "texto": "Enumeran los mensajes de alerta junto con información estadística.",
+          "correcta": false
+        },
+        {
+          "texto": "Muestran los resultados de las actividades de la red entre los hosts de la red.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Al igual que los datos de sesiones, los datos estadísticos están relacionados con el tráfico de red. Los datos estadísticos se crean a través del análisis de otras formas de datos de red."
+    },
+    {
+      "enunciado": "¿Cuáles dos herramientas tienen una interfaz gráfica de usuario (Graphical User Interface GUI) y se pueden usar para ver y analizar capturas de paquetes completas (full packet captures)? (Escoja dos opciones).",
+      "opciones": [
+        {
+          "texto": "tcpdump",
+          "correcta": false
+        },
+        {
+          "texto": "Módulo de análisis de red Cisco Prime (Cisco Prime Network Analysis Module)",
+          "correcta": true
+        },
+        {
+          "texto": "nfdump",
+          "correcta": false
+        },
+        {
+          "texto": "Wireshark",
+          "correcta": true
+        },
+        {
+          "texto": "Splunk",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El módulo de análisis de red (Network Analysis Module NAM) del sistema Cisco Prime Infrastructure, y Wireshark tienen interfaces GUI y pueden mostrar capturas de paquetes completas (full packet captures). La herramienta tcpdump es un analizador de paquetes en la línea de comandos."
+    },
+    {
+      "enunciado": "Una el registro de host de Windows con los mensajes incluidos en él. (No se utilizan todas las opciones).",
+      "tipo": "matching_image",
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-09_192209.jpg",
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-09_192209Respuestas.jpg"
+      ],
+      "opciones": [],
+      "tabla": [
+        [
+          "Archivo de registro de aplicaciones",
+          "Eventos registrados por distintas aplicaciones"
+        ],
+        [
+          "Archivos de registro del sistema",
+          "Eventos relacionados con el funcionamiento de los controladores, los procesos y el hardware"
+        ],
+        [
+          "Archivos de registro de configuración",
+          "Información sobre la instalación de software, incluidas las actualizaciones de Windows"
+        ],
+        [
+          "Archivos de registro de seguridad",
+          "Eventos relacionados con los intentos de inicio de sesión y las operaciones relacionadas con el acceso a archivos u objetos y su administración"
+        ]
+      ],
+      "senuelos": [
+        "Eventos relacionados con el acceso del servidor web y la actividad"
+      ]
+    },
+    {
+      "enunciado": "Un administrador del sistema ejecuta una utilidad de análisis de archivos en una PC con Windows y observa el archivo lsass.exe en el directorio de archivos de programa. ¿Qué debe hacer el administrador?",
+      "opciones": [
+        {
+          "texto": "Desinstalar la aplicación lsass porque es una aplicación heredada y ya no es necesaria por Windows.",
+          "correcta": false
+        },
+        {
+          "texto": "Abrir el Administrador de tareas, hacer clic con el derecho en el proceso lsass y seleccionar Finalizar tarea .",
+          "correcta": false
+        },
+        {
+          "texto": "Eliminar el archivo porque es probable que sea malware.",
+          "correcta": true
+        },
+        {
+          "texto": "Moverlo a Archivos de programa (x86) porque es una aplicación de 32 bits.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "En computadoras con Windows, el Servicio de subsistema de autoridad de seguridad local (LSASS), que funciona como lsass.exe, lleva a cabo el registro de la seguridad y la aplicación de políticas de seguridad. Debe ejecutarse desde el directorio Windows\\System32. Si un archivo con este nombre, o uno camuflado como 1sass.exe, se está ejecutando o se está corriendo desde otro directorio, podría ser malware."
+    },
+    {
+      "enunciado": "¿Qué registro de Windows contiene información sobre instalaciones de software, incluidas las actualizaciones de Windows?",
+      "opciones": [
+        {
+          "texto": "Archivos de registro de seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Archivos de registro de aplicaciones",
+          "correcta": false
+        },
+        {
+          "texto": "Archivos de registro del sistema",
+          "correcta": false
+        },
+        {
+          "texto": "Archivos de registro de configuración",
+          "correcta": true
+        }
+      ],
+      "explicacion": "En un host de Windows, los registros de configuración registran información sobre la instalación del software, incluidas las actualizaciones de Windows."
+    },
+    {
+      "enunciado": "Una la función SIEM con su respectiva descripción.",
+      "tipo": "matching_image",
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-09_192603.jpg",
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-09_192603Respuestas.jpg"
+      ],
+      "opciones": [],
+      "tabla": [
+        [
+          "Correlación",
+          "Vincula registros y eventos de sistemas o aplicaciones separados, lo que acelera la detección de las amenazas de seguridad y la capacidad de reacción ante ellas"
+        ],
+        [
+          "Agregación",
+          "Reduce el volumen de datos de eventos mediante la consolidación de registros de eventos duplicados"
+        ],
+        [
+          "Normalización",
+          "Mapea mensajes de registro de diferentes sistemas a un modelo de datos común"
+        ]
+      ],
+      "senuelos": [
+        "Satisface los requerimientos de distintas reglas de cumplimiento"
+      ]
+    },
+    {
+      "enunciado": "¿Qué información puede proporcionar la utilidad Cisco NetFlow?",
+      "opciones": [
+        {
+          "texto": "Horarios pico y enrutamiento del tráfico",
+          "correcta": true
+        },
+        {
+          "texto": "Restricciones en cuentas de usuarios y seguridad",
+          "correcta": false
+        },
+        {
+          "texto": "Asignación de puertos UDP (Protocolo de datagramas de usuario) de origen y destino",
+          "correcta": false
+        },
+        {
+          "texto": "Capacidades de IPS (Sistema de prevención de intrusión) e IDS",
+          "correcta": false
+        }
+      ],
+      "explicacion": "NetFlow proporciona de manera eficiente un importante conjunto de servicios para aplicaciones IP, en el que se incluye auditoría de tráfico de red, facturación de redes basada en el uso, planificación de la red, seguridad, funcionalidades de monitoreo de denegación de servicio y monitoreo de la red. NetFlow brinda información valiosa acerca de los usuarios y las aplicaciones de la red, horarios pico de uso y routing de tráfico."
+    },
+    {
+      "enunciado": "¿Cuál enunciado describe correctamente a un dispositivo de seguridad web de Cisco (Cisco Web Security Appliance WSA)?",
+      "opciones": [
+        {
+          "texto": "Actúa como un servidor VPN basado en SSL (SSL-based) para una empresa.",
+          "correcta": false
+        },
+        {
+          "texto": "Proporciona servicios web de alto rendimiento.",
+          "correcta": false
+        },
+        {
+          "texto": "Protege un servidor web al evitar que las amenazas de seguridad accedan al servidor.",
+          "correcta": false
+        },
+        {
+          "texto": "Funciona como un proxy web.",
+          "correcta": true
+        }
+      ],
+      "explicacion": "El dispositivo de seguridad web de Cisco (Cisco Web Security Appliance WSA) brinda una amplia gama de funcionalidades para el monitoreo de seguridad. WSA actúa de manera efectiva como un proxy web. Registra toda la información de transacciones entrantes y salientes para el tráfico HTTP."
+    },
+    {
+      "enunciado": "¿De qué manera un dispositivo proxy web proporciona prevención de pérdida de datos (DLP) para una empresa?",
+      "opciones": [
+        {
+          "texto": "Al comprobar la reputación de servidores web externos",
+          "correcta": false
+        },
+        {
+          "texto": "Al funcionar como un firewall",
+          "correcta": false
+        },
+        {
+          "texto": "Al inspeccionar el tráfico entrante en busca de ataques potenciales",
+          "correcta": false
+        },
+        {
+          "texto": "Al analizar y registrar el tráfico saliente",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Un dispositivo proxy web puede inspeccionar el tráfico saliente como una forma de prevenir la pérdida de datos (DLP). DLP implica analizar el tráfico saliente para detectar si los datos que salen de la red empresarial contienen información confidencial o secreta."
+    },
+    {
+      "enunciado": "¿Qué dispositivo de Cisco puede utilizarse para filtrar contenido del tráfico de red e informar y denegar el tráfico en función de la reputación del servidor web?",
+      "opciones": [
+        {
+          "texto": "ASA",
+          "correcta": false
+        },
+        {
+          "texto": "WSA",
+          "correcta": true
+        },
+        {
+          "texto": "AVC",
+          "correcta": false
+        },
+        {
+          "texto": "ESA",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Cisco Web Security Appliance (WSA) actúa como un proxy web para una red empresarial. WSA puede proporcionar muchos tipos de registros relacionados con la seguridad del tráfico web, como registros de decisiones de ACL, registros de análisis de malware, reputación web y registros de filtrado de reputación de sitios web. El dispositivo de seguridad de correo electrónico (ESA) de Cisco es una herramienta para controlar la mayoría de los aspectos de la entrega de correos electrónicos, el funcionamiento del sistema, los antivirus, las operaciones antispam y las decisiones relativas a listas negras y listas blancas. El Cisco ASA es un dispositivo de firewall. El sistema Cisco Application Visibility and Control (AVC) combina varias tecnologías para reconocer, analizar y controlar más de 1000 aplicaciones."
+    },
+    {
+      "enunciado": "Consulte la ilustración. Un administrador de red está mirando una salida arrojada por el recopilador Netflow. ¿Qué se puede determinar a partir de la salida con respecto al flujo de tráfico que se muestra?",
+      "opciones": [
+        {
+          "texto": "Esta es una respuesta DNS de UDP a una máquina cliente.",
+          "correcta": true
+        },
+        {
+          "texto": "Esta es una respuesta DNS de TCP a una máquina cliente.",
+          "correcta": false
+        },
+        {
+          "texto": "Esta es una solicitud DNS de UDP a un servidor DNS.",
+          "correcta": false
+        },
+        {
+          "texto": "Esta es una solicitud DNS de TCP a un servidor DNS.",
+          "correcta": false
+        }
+      ],
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-09_193525.jpg"
+      ],
+      "explicacion": "El flujo de tráfico que se muestra tiene un puerto de origen de 53 y un puerto de destino de 1025. El puerto 53 se utiliza para DNS y, puesto que es el puerto de origen, el tráfico responde a una máquina desde un servidor DNS. El protocolo IP es 17 y especifica que se utiliza UDP y que el TCP indica 0."
+    },
+    {
+      "enunciado": "¿Qué función provee la aplicación Sguil?",
+      "opciones": [
+        {
+          "texto": "Hace que las alertas generadas por Snort se puedan leer y buscar",
+          "correcta": true
+        },
+        {
+          "texto": "Evita que un malware ataque un host.",
+          "correcta": false
+        },
+        {
+          "texto": "Informa las conversaciones entre los hosts de la red.",
+          "correcta": false
+        },
+        {
+          "texto": "Detecta posibles intrusiones en la red.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Las aplicaciones como Snorby y Sguil pueden utilizarse para leer y buscar mensajes de alerta generados por NIDS/NIPS."
+    },
+    {
+      "enunciado": "De las siguientes opciones, indique las dos que hacen referencia a enfoques para el monitoreo de seguridad de la red que utilizan técnicas analíticas avanzadas para analizar los datos de telemetría de la red. (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "NetFlow",
+          "correcta": false
+        },
+        {
+          "texto": "Snorby",
+          "correcta": false
+        },
+        {
+          "texto": "NBAD",
+          "correcta": true
+        },
+        {
+          "texto": "IPFIX",
+          "correcta": false
+        },
+        {
+          "texto": "NBA",
+          "correcta": true
+        },
+        {
+          "texto": "Sguil",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Los sistemas de Análisis de comportamiento de la red (NBA) y de Detección de anomalías en el comportamiento de red (NBAD) son enfoques para el monitoreo de la seguridad de la red que utilizan técnicas analíticas avanzadas para analizar los datos de telemetría de la red NetFlow o IPFIX."
+    },
+    {
+      "enunciado": "¿Qué significa si la marca de hora en la sección de encabezado de un mensaje de syslog está precedida de un punto o un asterisco?",
+      "opciones": [
+        {
+          "texto": "El mensaje de syslog indica la hora en que se recibe un correo electrónico.",
+          "correcta": false
+        },
+        {
+          "texto": "Existe un problema asociado con NTP.",
+          "correcta": true
+        },
+        {
+          "texto": "El mensaje de syslog debe tratarse con prioridad alta.",
+          "correcta": false
+        },
+        {
+          "texto": "La marca de hora representa el valor de duración ida y vuelta.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "La sección de encabezado del mensaje contiene la marca de hora. Si la marca de hora está precedida por los símbolos de punto (.) o de asterisco(*), se indica que hay un problema con NTP."
+    },
+    {
+      "enunciado": "En un sistema Cisco AVC, ¿en qué módulo se implementa NetFlow?",
+      "opciones": [
+        {
+          "texto": "Control",
+          "correcta": false
+        },
+        {
+          "texto": "Recopilación de métricas",
+          "correcta": true
+        },
+        {
+          "texto": "Administración y elaboración de informes",
+          "correcta": false
+        },
+        {
+          "texto": "Reconocimiento de aplicaciones",
+          "correcta": false
+        }
+      ],
+      "explicacion": "La tecnología NetFlow se implementa en el módulo de recopilación de métricas de un sistema Cisco AVC para recopilar métricas de flujo de red y exportarlas a herramientas de administración."
+    },
+    {
+      "enunciado": "¿En cuál de las siguientes situaciones puede IMAP representar una amenaza de seguridad para una compañía?",
+      "opciones": [
+        {
+          "texto": "Un correo electrónico puede utilizarse para introducir malware en un host.",
+          "correcta": true
+        },
+        {
+          "texto": "Los datos cifrados se descifran.",
+          "correcta": false
+        },
+        {
+          "texto": "Una persona hace clic sin querer en un iFrame oculto.",
+          "correcta": false
+        },
+        {
+          "texto": "Puede ser utilizado para codificar datos robados y enviárselos al actor de una amenaza.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "IMAP, SMTP y POP3 son protocolos de correo electrónico. SMTP se utiliza para enviar datos desde un host a un servidor o entre servidores. IMAP y POP3 se utilizan para descargar mensajes de correo electrónico y pueden ser responsables de introducir malware en el host de recepción."
+    }
+  ],
+  "redaccion": []
 }

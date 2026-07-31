@@ -1,14 +1,846 @@
 {
-  "encrypted": true,
-  "kdf_iterations": 250000,
   "asignatura": "CyberOps Associate",
   "asignatura_slug": "cyberops-associate",
   "tema": "Módulos 11-12: Seguridad de la Infraestructura de Red",
   "tema_id": "cyberops-associate_m11-12",
   "orden": 4,
-  "test_count": 35,
-  "redaccion_count": 0,
-  "salt": "NgTyeM+iVzXQXZUNyTYKcQ==",
-  "iv": "bhNuXoSKn211q/Xt",
-  "ciphertext": "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"
+  "test": [
+    {
+      "enunciado": "Una cada dispositivo con una categoría.",
+      "tipo": "matching_image",
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-08_223125.jpg"
+      ],
+      "opciones": [],
+      "tabla": [
+        [
+          "pc",
+          "Terminal"
+        ],
+        [
+          "impresora",
+          "Terminal"
+        ],
+        [
+          "dispositivo inteligente",
+          "Terminal"
+        ],
+        [
+          "firewall",
+          "Dispositivo intermediario"
+        ],
+        [
+          "router",
+          "Dispositivo intermediario"
+        ],
+        [
+          "switch",
+          "Dispositivo intermediario"
+        ]
+      ]
+    },
+    {
+      "enunciado": "Un router de Cisco está ejecutando IOS 15. ¿Cuáles son los dos tipos de entrada de tabla de routing que se agregarán cuando un administrador de red active una interfaz y le asigne una dirección IP? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "Ruta que un administrador de red introduce de forma manual",
+          "correcta": false
+        },
+        {
+          "texto": "Interfaz de ruta local",
+          "correcta": true
+        },
+        {
+          "texto": "Ruta que se obtiene a través de OSPF",
+          "correcta": false
+        },
+        {
+          "texto": "Interfaz conectada directamente",
+          "correcta": true
+        },
+        {
+          "texto": "Ruta que se obtiene a través de EIGRP",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Una entrada de tabla de routing de interfaz de ruta local se encuentra cuando un router ejecuta IOS 15 o una versión superior, o bien si está habilitado el routing IPv6. Cada vez que se asigne una dirección y se habilite una interfaz (activa), una interfaz conectada directamente se muestra automáticamente en la tabla de routing."
+    },
+    {
+      "enunciado": "¿Qué información, dentro de un paquete de datos, utiliza un router para tomar decisiones de reenvío?",
+      "opciones": [
+        {
+          "texto": "El nombre de host de destino.",
+          "correcta": false
+        },
+        {
+          "texto": "La dirección IP de destino",
+          "correcta": true
+        },
+        {
+          "texto": "la dirección MAC de destino",
+          "correcta": false
+        },
+        {
+          "texto": "El servicio de destino solicitado.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Un dispositivo de capa 3, como un router, utiliza una dirección IP de destino de capa 3 para tomar una decisión de reenvío."
+    },
+    {
+      "enunciado": "¿En dónde es almacenada la tabla de enrutamiento de un router?",
+      "opciones": [
+        {
+          "texto": "RAM",
+          "correcta": true
+        },
+        {
+          "texto": "ROM",
+          "correcta": false
+        },
+        {
+          "texto": "NVRAM",
+          "correcta": false
+        },
+        {
+          "texto": "flash",
+          "correcta": false
+        }
+      ],
+      "explicacion": "La tabla de enrutamiento de un router se almacena en la RAM, que es memoria volátil. Si un router pierde energía o se reinicia, se pierde el contenido de la RAM y se debe regenerar la tabla de enrutamiento."
+    },
+    {
+      "enunciado": "¿Qué protocolo de enrutamiento se utiliza para intercambiar rutas entre proveedores de servicios de Internet?",
+      "opciones": [
+        {
+          "texto": "ISIS",
+          "correcta": false
+        },
+        {
+          "texto": "EIGRP",
+          "correcta": false
+        },
+        {
+          "texto": "RIP",
+          "correcta": false
+        },
+        {
+          "texto": "OSPF",
+          "correcta": false
+        },
+        {
+          "texto": "BGP",
+          "correcta": true
+        }
+      ],
+      "explicacion": "BGP es un protocolo de enrutamiento vector de ruta y es utilizado por los proveedores de servicios de Internet para intercambiar rutas."
+    },
+    {
+      "enunciado": "¿Cuáles de los siguientes son dos protocolos de routing de estado de enlace? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "RIP",
+          "correcta": false
+        },
+        {
+          "texto": "ISIS",
+          "correcta": true
+        },
+        {
+          "texto": "EIGRP",
+          "correcta": false
+        },
+        {
+          "texto": "OSPF",
+          "correcta": true
+        },
+        {
+          "texto": "BGP",
+          "correcta": false
+        }
+      ],
+      "explicacion": "ISIS y OSPF son protocolos de estado de enlace. EIGRP y RIP son protocolos de vector de distancia. BGP es un protocolo de vector de ruta."
+    },
+    {
+      "enunciado": "¿Cuál es una característica de un hub?",
+      "opciones": [
+        {
+          "texto": "Utiliza CSMA/CA para evitar colisiones",
+          "correcta": false
+        },
+        {
+          "texto": "Opera en capa 2",
+          "correcta": false
+        },
+        {
+          "texto": "Subdivide la red en dominios de colisión",
+          "correcta": false
+        },
+        {
+          "texto": "Regenera las señales recibidas en un puerto y sale de todos los demás puertos",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Un hub es un dispositivo de capa 1 que regenera las señales de todos los puertos que no sean el puerto de entrada. Todos los puertos en un hub pertenecen al mismo dominio de colisión. Los hubs utilizan CSMA/CD para detectar colisiones en la red."
+    },
+    {
+      "enunciado": "¿Qué marco de administración Wi-fi es transmitida regularmente por los AP para anunciar su presencia?",
+      "opciones": [
+        {
+          "texto": "Asociación",
+          "correcta": false
+        },
+        {
+          "texto": "Autenticación",
+          "correcta": false
+        },
+        {
+          "texto": "Sondear",
+          "correcta": false
+        },
+        {
+          "texto": "Beacon",
+          "correcta": true
+        }
+      ],
+      "explicacion": "El AP transmite por difusión las tramas de señal periódicamente para anunciar sus redes inalámbricas a los posibles clientes. Las tramas de sondeo, asociación y autenticación solo se envían cuando un cliente se asocia al AP."
+    },
+    {
+      "enunciado": "¿Cuál es una característica del modo de detección pasiva WLAN?",
+      "opciones": [
+        {
+          "texto": "La función beaconing en el AP está deshabilitada.",
+          "correcta": false
+        },
+        {
+          "texto": "El AP envía periódicamente tramas beacon que contienen el SSID.",
+          "correcta": true
+        },
+        {
+          "texto": "El cliente debe conocer el nombre del SSID para comenzar el proceso de detección.",
+          "correcta": false
+        },
+        {
+          "texto": "El cliente inicia el proceso de detección mediante el envío de una solicitud de prueba.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "En modo pasivo, los clientes inalámbricos aprenden qué redes y puntos de acceso están disponibles. El cliente aprende esta información de las tramas de beacon, enviadas por los AP, que contienen el SSID WLAN, los estándares compatibles y la configuración de seguridad."
+    },
+    {
+      "enunciado": "¿Qué se usa en las WLAN para evitar colisiones de paquetes?",
+      "opciones": [
+        {
+          "texto": "SVIs",
+          "correcta": false
+        },
+        {
+          "texto": "STP",
+          "correcta": false
+        },
+        {
+          "texto": "CSMA/CA",
+          "correcta": true
+        },
+        {
+          "texto": "VLAN",
+          "correcta": false
+        }
+      ],
+      "explicacion": "WLANs son redes half-duplex lo que significa que solo un cliente puede transmitir o recibir en un momento dado. WLANs utilizan el acceso múltiple con evitación de colisiones (CSMA/CA, siglas en inglés) para determinar cómo y cuándo enviar datos."
+    },
+    {
+      "enunciado": "¿Cuál es el primer paso en el proceso CSMA/CA cuando un cliente inalámbrico está intentando comunicarse en la red inalámbrica?",
+      "opciones": [
+        {
+          "texto": "El AP envía un mensaje CTS al cliente.",
+          "correcta": false
+        },
+        {
+          "texto": "El cliente envía una trama de prueba al canal.",
+          "correcta": false
+        },
+        {
+          "texto": "El cliente envía un mensaje RTS al AP.",
+          "correcta": false
+        },
+        {
+          "texto": "El cliente escucha el tráfico en el canal.",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Cuando un cliente inalámbrico intenta comunicarse en la red, primero escuchará el canal para asegurarse de que está inactivo. Luego, el cliente envía un mensaje RTS al AP para solicitar acceso dedicado a la red. A continuación, El AP enviará un mensaje CTS otorgando acceso al cliente. Luego, el cliente transmitirá los datos."
+    },
+    {
+      "enunciado": "¿Los puntos de acceso ligeros retransmiten datos entre dos dispositivos de la red? (Escoja dos opciones).",
+      "opciones": [
+        {
+          "texto": "Punto de acceso autónomo",
+          "correcta": false
+        },
+        {
+          "texto": "Router inalámbrico",
+          "correcta": false
+        },
+        {
+          "texto": "Puerta de enlace predeterminada",
+          "correcta": false
+        },
+        {
+          "texto": "cliente inalámbrico",
+          "correcta": true
+        },
+        {
+          "texto": "Controlador de LAN inalámbrico",
+          "correcta": true
+        }
+      ],
+      "explicacion": "En una implementación inalámbrica que utiliza puntos de acceso ligeros (LWAP, siglas en inglés), el LWAP reenvía datos entre los clientes inalámbricos y el controlador de LAN inalámbrica (WLC, siglas en inglés)."
+    },
+    {
+      "enunciado": "¿Cuáles son los dos dispositivos que comúnmente se encontrarían en la capa de acceso del modelo de diseño jerárquico de LAN empresarial? (Elija dos).",
+      "opciones": [
+        {
+          "texto": "Punto de acceso",
+          "correcta": true
+        },
+        {
+          "texto": "Switch modular",
+          "correcta": false
+        },
+        {
+          "texto": "Dispositivo de capa 3",
+          "correcta": false
+        },
+        {
+          "texto": "Firewall",
+          "correcta": false
+        },
+        {
+          "texto": "Switch de capa 2",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Si bien algunos diseños enrutan en la capa de acceso, los dos dispositivos que se deben colocar siempre en la capa de acceso del modelo de diseño jerárquico son un punto de acceso y un switch de capa 2. En general, los switches modulares se usan en la capa de núcleo. El routing mediante un dispositivo de capa 3 se usa generalmente en la capa de distribución. El firewall es un dispositivo en el diseño de red de Internet perimetral."
+    },
+    {
+      "enunciado": "¿Cuál enunciado describe una de las reglas que rigen el comportamiento de las interfaces en el contexto de la implementación de una configuración de política de Firewall basado en zonas (zone-based policy firewall configuration)?",
+      "opciones": [
+        {
+          "texto": "Por defecto, es permitido que el tráfico fluya entre una interfaz que es miembro de una zona y cualquier interfaz que no es un miembro de esa zona.",
+          "correcta": false
+        },
+        {
+          "texto": "Un administrador puede asignar interfaces a zonas, independientemente de si la zona haya sido configurada.",
+          "correcta": false
+        },
+        {
+          "texto": "Un administrador puede asignar una interfaz a varias zonas de seguridad.",
+          "correcta": false
+        },
+        {
+          "texto": "Por defecto, es permitido que el tráfico fluya entre las interfaces que son miembros de la misma zona.",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Una interfaz puede pertenecer solo a una zona. Crear una zona es el primer paso para configurar una política de Firewall basado en zonas. No se puede asignar una zona a una interfaz si la zona no ha sido creada. El tráfico nunca puede fluir entre una interfaz asignada a una zona y una interfaz que no ha sido asignada a una zona."
+    },
+    {
+      "enunciado": "¿Cuál es la función de la capa de distribución en el modelo de diseño de red de tres capas?",
+      "opciones": [
+        {
+          "texto": "Proporcionar acceso seguro a Internet",
+          "correcta": false
+        },
+        {
+          "texto": "Proporcionar acceso directo a la red",
+          "correcta": false
+        },
+        {
+          "texto": "Proporcionar conexión de alta velocidad en el perímetro de la red",
+          "correcta": false
+        },
+        {
+          "texto": "Agregar conexiones de capa de acceso",
+          "correcta": true
+        }
+      ],
+      "explicacion": "La función de la capa de distribución es proporcionar conectividad a los servicios y agregar las conexiones de capa de acceso"
+    },
+    {
+      "enunciado": "¿Cuales dos componentes de los dispositivos de seguridad web tradicionales son ejemplos de funciones integradas en un dispositivo Cisco Web Security Appliance? (Escoja dos opciones).",
+      "opciones": [
+        {
+          "texto": "Firewall",
+          "correcta": false
+        },
+        {
+          "texto": "Filtrado de virus de correo electrónico y spam",
+          "correcta": false
+        },
+        {
+          "texto": "Conexión VPN",
+          "correcta": false
+        },
+        {
+          "texto": "Filtrado de URL (URL filtering)",
+          "correcta": true
+        },
+        {
+          "texto": "Generación de informes web (web reporting)",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Cisco Web Security Appliance es una puerta de enlace web que combina protección avanzada contra malware, control y visibilidad de aplicaciones, controles de políticas de uso aceptable, informes (reporting), y funciones de movilidad segura (secure mobility). En los dispositivos de seguridad web tradicionales, estas funciones suelen proporcionarse a través de varios dispositivos. No es un dispositivo Firewall ya que solo filtra el tráfico web. No proporciona conexiones VPN, ni proporciona filtrado de virus de correo electrónico y spam; Cisco Email Security Appliance proporciona estas funciones."
+    },
+    {
+      "enunciado": "¿Cuáles son las dos desventajas de usar un IDS? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "El IDS analiza los paquetes reenviados.",
+          "correcta": false
+        },
+        {
+          "texto": "El IDS no detiene el tráfico malicioso.",
+          "correcta": true
+        },
+        {
+          "texto": "El IDS requiere que otros dispositivos respondan a los ataques.",
+          "correcta": true
+        },
+        {
+          "texto": "El IDS funciona sin conexión utilizando copias del tráfico de red.",
+          "correcta": false
+        },
+        {
+          "texto": "El IDS no tiene ningún impacto en el tráfico.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "La desventaja de operar con tráfico duplicado (reflejado) es que el IDS no puede impedir que los ataques maliciosos de un solo paquete (single packet) alcancen el objetivo antes de responder al ataque. Un IDS usualmente requiere la asistencia de otros dispositivos de red, como routers Firewalls, para responder a un ataque. Una ventaja de un IDS es que al trabajar sin conexión utilizando tráfico duplicado (reflejado), no tiene ningún impacto en el flujo de tráfico."
+    },
+    {
+      "enunciado": "¿Cuál es la característica del firewall que se utiliza para asegurar que los paquetes que ingresan a una red sean respuestas legítimas a solicitudes originadas en los hosts internos?",
+      "opciones": [
+        {
+          "texto": "Filtrado de URL",
+          "correcta": false
+        },
+        {
+          "texto": "Filtrado de paquetes",
+          "correcta": false
+        },
+        {
+          "texto": "Inspección de paquetes con estado",
+          "correcta": true
+        },
+        {
+          "texto": "Filtrado de aplicaciones",
+          "correcta": false
+        }
+      ],
+      "explicacion": "La inspección de paquetes con estado en un firewall comprueba que los paquetes entrantes sean respuestas legítimas a solicitudes originadas en los hosts internos a la red. El filtrado de paquetes se puede utilizar para autorizar o denegar el acceso a los recursos según la dirección IP o MAC. El filtrado de aplicaciones permite autorizar o denegar el acceso según el número de puerto. El filtrado de URL se utiliza para autorizar o denegar el acceso según la URL o palabras clave."
+    },
+    {
+      "enunciado": "Una el tipo de dispositivo de seguridad de red con la descripción.",
+      "tipo": "matching_image",
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-06_194129.jpg",
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-06_194129Respuestas.jpg"
+      ],
+      "opciones": [],
+      "tabla": [
+        [
+          "Firewall para filtrado de paquetes",
+          "Hace cumplir las políticas de control de acceso en función del contenido del paquete"
+        ],
+        [
+          "IPS",
+          "Utiliza firmas para detectar patrones en el tráfico de red"
+        ],
+        [
+          "Puerta de enlace de la aplicación",
+          "Filtra el tráfico en la información de capa 7"
+        ],
+        [
+          "Firewall activo",
+          "Filtra el tráfico en función de las reglas definidas y el contexto de conexión"
+        ]
+      ]
+    },
+    {
+      "enunciado": "En el proceso de recopilación de datos, ¿qué tipo de dispositivo escucha el tráfico pero solo recopila estadísticas de tráfico?",
+      "opciones": [
+        {
+          "texto": "Servidor de syslog",
+          "correcta": false
+        },
+        {
+          "texto": "El recopilador NetFlow",
+          "correcta": true
+        },
+        {
+          "texto": "NMS",
+          "correcta": false
+        },
+        {
+          "texto": "Agente de SNMP",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Un recopilador NetFlow es el dispositivo que recibe las estadísticas de tráfico de los dispositivos de red. NetFlow solo recopila las estadísticas de tráfico, a diferencia de syslog y SNMP que pueden recopilar diversos eventos de red."
+    },
+    {
+      "enunciado": "¿Qué componente de AAA puede establecerse utilizando tokens?",
+      "opciones": [
+        {
+          "texto": "Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Auditoría",
+          "correcta": false
+        },
+        {
+          "texto": "Autenticación",
+          "correcta": true
+        },
+        {
+          "texto": "Registro",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El componente de autenticación de AAA se establece utilizando combinaciones de nombre de usuario y contraseña, desafío y respuesta, tokens. El componente de autorización de AAA determina a qué recursos puede acceder el usuario y qué operaciones tiene permitido realizar. El componente de registro y auditoría de AAA realiza un seguimiento de cómo se utilizan los recursos de la red."
+    },
+    {
+      "enunciado": "¿Qué afirmación describe una diferencia entre RADIUS y TACACS+?",
+      "opciones": [
+        {
+          "texto": "RADIUS utiliza TCP mientras que TACACS+ hace uso de UDP.",
+          "correcta": false
+        },
+        {
+          "texto": "RADIUS separa la autenticación y la autorización mientras que TACACS+ las combina en un proceso.",
+          "correcta": false
+        },
+        {
+          "texto": "RADIUS cifra solamente la contraseña mientras que TACACS+ cifra toda la comunicación.",
+          "correcta": true
+        },
+        {
+          "texto": "El software Cisco Secure ACS admite RADIUS pero no TACACS+.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "TACACS+ utiliza TCP, cifra todo el paquete (no solo la contraseña) y separa la autenticación y la autorización en dos procesos individuales. El software Cisco Secure ACS admite ambos protocolos."
+    },
+    {
+      "enunciado": "¿Cuáles son las dos declaraciones verdaderas sobre los servidores NTP en una red empresarial? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "Los servidores NTP aseguran que la información de registro y de depuración tenga una marca de tiempo precisa.",
+          "correcta": true
+        },
+        {
+          "texto": "Todos los servidores NTP se sincronizan directamente con un origen de hora de estrato 1.",
+          "correcta": false
+        },
+        {
+          "texto": "Los servidores NTP controlan el tiempo medio entre fallas (MTBF) para los dispositivos de red clave.",
+          "correcta": false
+        },
+        {
+          "texto": "Los servidores NTP de estrato 1 están conectados directamente a un origen de hora autoritativo.",
+          "correcta": true
+        },
+        {
+          "texto": "Solo puede haber un servidor NTP en una red empresarial.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "El protocolo de tiempo de red (NTP) se utiliza para sincronizar la hora de todos los dispositivos de la red para garantizar la precisión de las marcas de hora de los dispositivos para administrar, proteger y solucionar problemas. Las redes NTP utilizan un sistema jerárquico de origen de hora. Cada nivel de este sistema jerárquico se denomina estrato. Los dispositivos de estrato 1 están conectados de forma directa a un origen de hora autoritativo."
+    },
+    {
+      "enunciado": "¿Cuál de las siguientes es una función de SNMP?",
+      "opciones": [
+        {
+          "texto": "Sincroniza el tiempo en todos los dispositivos en la red",
+          "correcta": false
+        },
+        {
+          "texto": "Captura paquetes que entran y salen de la tarjeta de interfaz de red",
+          "correcta": false
+        },
+        {
+          "texto": "Brinda un formato de mensaje para la comunicación entre los agentes y los administradores de dispositivos de red",
+          "correcta": true
+        },
+        {
+          "texto": "Proporciona análisis estadístico sobre los paquetes que pasan por un router o switch de multicapa de Cisco",
+          "correcta": false
+        }
+      ],
+      "explicacion": "SNMP es un protocolo de capa de aplicación que permite a los administradores administrar los dispositivos en la red al brindar un formato de mensaje para la comunicación entre los agentes y los administradores de dispositivos de red."
+    },
+    {
+      "enunciado": "Haga coincidir el servicio de seguridad con su respectiva descripción",
+      "tipo": "matching_image",
+      "imagenes": [
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-06_194900.jpg",
+        "https://examenredes.com/wp-content/uploads/2022/03/2022-03-06_194900Respuestas.jpg"
+      ],
+      "opciones": [],
+      "tabla": [
+        [
+          "ACL",
+          "Una serie de comandos que controlan si un dispositivo reenvía o descarta paquetes"
+        ],
+        [
+          "SNMP",
+          "Permite a los administradores gestionar dispositivos de red"
+        ],
+        [
+          "NetFlow",
+          "Proporciona estadísticas sobre los paquetes que pasan por un router o switch multicapa de Cisco"
+        ],
+        [
+          "Port mirroring (duplicación de puertos)",
+          "Permite que un switch realice copias duplicadas del tráfico que se envía a un analizador de tráfico (traffic analyzer)"
+        ]
+      ]
+    },
+    {
+      "enunciado": "¿Cuál tipo de ruta es creada cuando un administrador de red configura manualmente una ruta que tiene una interfaz de salida activa?",
+      "opciones": [
+        {
+          "texto": "Dinámica",
+          "correcta": false
+        },
+        {
+          "texto": "Local",
+          "correcta": false
+        },
+        {
+          "texto": "Conectado directamente",
+          "correcta": false
+        },
+        {
+          "texto": "Estática",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Una ruta estática es aquella que el administrador de red configura manualmente."
+    },
+    {
+      "enunciado": "¿Cuáles son las tres partes de todas las tramas de Capa 2? (Escoja tres opciones).",
+      "opciones": [
+        {
+          "texto": "encabezado",
+          "correcta": true
+        },
+        {
+          "texto": "Dirección IP de origen y destino",
+          "correcta": false
+        },
+        {
+          "texto": "número de secuencia",
+          "correcta": false
+        },
+        {
+          "texto": "time-to-live (tiempo-de-vida)",
+          "correcta": false
+        },
+        {
+          "texto": "payload (carga útil)",
+          "correcta": true
+        },
+        {
+          "texto": "Secuencia de verificación de trama",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Los tramas de capa 2 tienen tres componentes: el encabezado, la payload y una secuencia de verificación de tramas al final."
+    },
+    {
+      "enunciado": "¿Cuáles son dos tipos de direcciones que se encuentran en terminales de red? (Elija dos opciones).",
+      "opciones": [
+        {
+          "texto": "MAC",
+          "correcta": true
+        },
+        {
+          "texto": "UDP",
+          "correcta": false
+        },
+        {
+          "texto": "TCP",
+          "correcta": false
+        },
+        {
+          "texto": "return",
+          "correcta": false
+        },
+        {
+          "texto": "IP",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Los dispositivos intermediarios utilizan dos tipos de direcciones al enviar mensajes al dispositivo de destino final: direcciones MAC y direcciones IP. TCP y UDP son protocolos utilizados en la capa 4 para identificar qué números de puerto se utilizan en los dispositivos de origen y de destino. Un remitente se utiliza cuando se envía una carta por correo postal, no a través de la red."
+    },
+    {
+      "enunciado": "¿Cuál es una característica de un puerto enrutado que está configurado en un switch Cisco?",
+      "opciones": [
+        {
+          "texto": "Ejecuta STP para evitar bucles.",
+          "correcta": false
+        },
+        {
+          "texto": "Está asociado con una única VLAN.",
+          "correcta": false
+        },
+        {
+          "texto": "Se le asigna una dirección IP.",
+          "correcta": true
+        },
+        {
+          "texto": "Admite subinterfaces.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Los puertos enrutados en un switch Cisco se comportan de manera similar a los de un router. Son configurados con una dirección IP y reenvían paquetes de Capa 3. A diferencia de las interfaces de switch de capa 2, los puertos enrutados no admiten STP, ni tampoco admiten subinterfaces como lo hacen los routers."
+    },
+    {
+      "enunciado": "¿Cuál es una ventaja del sistema HIPS que no es proporcionada por un IDS?",
+      "opciones": [
+        {
+          "texto": "HIPS implementa sensores en los puntos de entrada (entry points) de la red y protege los segmentos críticos de la red.",
+          "correcta": false
+        },
+        {
+          "texto": "HIPS monitorea los procesos de red y protege los archivos críticos.",
+          "correcta": false
+        },
+        {
+          "texto": "HIPS proporciona un análisis rápido de los eventos a través de un registro detallado (detailed logging).",
+          "correcta": false
+        },
+        {
+          "texto": "HIPS protege los recursos críticos del sistema y monitorea los procesos del sistema operativo.",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Los sensores IDS basados en red (Network-based IDS NIDS) suelen implementarse en modo «sin conexión» (offline). No protegen a los hosts individuales. El IPS basado en hosts (Host-based IPS HIPS) es un software instalado en un host individual que se usa para controlar y analizar actividades sospechosas. Puede monitorear y proteger el sistema operativo y los procesos críticos del sistema que son específicos de ese host. HIPS puede considerarse una combinación de software antivirus, software antimalware y Firewall."
+    },
+    {
+      "enunciado": "¿Qué es un sistema de detección de intrusiones basado en host (HIDS)?",
+      "opciones": [
+        {
+          "texto": "Detecta y detiene los ataques directos potenciales, pero no realiza un análisis en busca de malware.",
+          "correcta": false
+        },
+        {
+          "texto": "Identifica ataques potenciales y envía alertas, pero no detiene el tráfico.",
+          "correcta": false
+        },
+        {
+          "texto": "Combina las funcionalidades de aplicaciones antimalware con protección de firewall.",
+          "correcta": true
+        },
+        {
+          "texto": "Es un sistema sin agente que analiza los archivos en un host en busca de posible malware.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Un HIDS es una aplicación de seguridad integral que combina las funcionalidades de las aplicaciones antimalware con la protección de un firewall. Un HIDS detecta malware y, además, impide su ejecución. Puesto que el HIDS se ejecuta directamente en el host, se considera un sistema basado en agente."
+    },
+    {
+      "enunciado": "¿Cuál enunciado describe una VPN?",
+      "opciones": [
+        {
+          "texto": "Una VPN utiliza conexiones físicas dedicadas para transferir datos entre usuarios remotos.",
+          "correcta": false
+        },
+        {
+          "texto": "Una VPN utiliza conexiones virtuales para crear una red privada a través de una red pública.",
+          "correcta": true
+        },
+        {
+          "texto": "Una VPN utiliza conexiones lógicas para crear redes públicas a través de Internet.",
+          "correcta": false
+        },
+        {
+          "texto": "Una VPN utiliza software de virtualización de código abierto para crear un túnel a través del Internet.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Una VPN es una red privada que se crea a través de una red pública. En lugar de usar conexiones físicas dedicadas, una VPN usa conexiones virtuales enrutadas a través de una red pública entre dos dispositivos de red."
+    },
+    {
+      "enunciado": "¿Qué acción realiza un switch ethernet cuando recibe una trama con una dirección de origen de capa 2 desconocida?",
+      "opciones": [
+        {
+          "texto": "Descarta la trama.",
+          "correcta": false
+        },
+        {
+          "texto": "Registra la dirección de origen en la tabla de direcciones del switch.",
+          "correcta": true
+        },
+        {
+          "texto": "Reenvía la trama hacia la puerta de enlace predeterminada.",
+          "correcta": false
+        },
+        {
+          "texto": "Reenvía la trama a todas las interfaces excepto a la interfaz en la que fue recibida.",
+          "correcta": false
+        }
+      ],
+      "explicacion": "Cuando un switch ethernet recibe una trama con una dirección de capa 2 desconocida, el switch registra esa dirección en la tabla de direcciones."
+    },
+    {
+      "enunciado": "¿Qué característica describe un cliente inalámbrico que funciona en modo activo?",
+      "opciones": [
+        {
+          "texto": "Capacidad de cambiar dinámicamente canales",
+          "correcta": false
+        },
+        {
+          "texto": "Transmite señales que solicitan el SSID",
+          "correcta": false
+        },
+        {
+          "texto": "Debe configurarse para seguridad antes de conectarse a un AP",
+          "correcta": false
+        },
+        {
+          "texto": "Debe conocer el SSID para conectarse a un AP",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Un cliente inalámbrico que opera en modo activo debe conocer el nombre del SSID. Las solicitudes de sondeo son transmitidas por un cliente a través de múltiples canales e incluyen el nombre SSID y los estándares soportados. El modo activo se usa si un AP está configurado para no transmitir tramas de guía."
+    },
+    {
+      "enunciado": "¿Qué técnica es necesaria para garantizar una transferencia de datos privada mediante una VPN?",
+      "opciones": [
+        {
+          "texto": "Autorización",
+          "correcta": false
+        },
+        {
+          "texto": "Virtualización",
+          "correcta": false
+        },
+        {
+          "texto": "Escalabilidad",
+          "correcta": false
+        },
+        {
+          "texto": "Cifrado",
+          "correcta": true
+        }
+      ],
+      "explicacion": "Las transferencias de datos confidenciales y seguras mediante VPN requieren cifrado de datos."
+    }
+  ],
+  "redaccion": []
 }
